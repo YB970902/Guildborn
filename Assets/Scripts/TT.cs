@@ -11,7 +11,7 @@ public class TT : MonoBehaviour
 {
     void Start()
     {
-        var test = BeanCore.Instance.LD.Test.datas[0];
+        var test = BeanCore.Instance.LD.TestData.datas[0];
         Debug.Log(test.Name);
         Debug.Log(test);
     }
