@@ -24,23 +24,9 @@ namespace BC.LocalData
 
 	public partial class LocalDataModule
 	{
-		public LocalDataList<TestData> TestData { get; private set; }
 		public LocalDataModule()
 		{
 			LoadAllData();
-		}
-
-		/// <summary>
-		/// 모든 로컬데이터를 Bytes파일로 변환하여 저장한다.
-		/// </summary>
-		public static void SaveAllData()
-		{
-			SaveData<TestData>();
-		}
-
-		public void LoadAllData()
-		{
-			TestData = LoadData<TestData>();
 		}
 
 		/// <summary>
@@ -80,9 +66,8 @@ namespace BC.LocalData
 		/// </summary>
 		private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
 		{
-			for (int i = 0, len = importedAssets.Length; i < len; ++i)
+			foreach(string path in importedAssets)
 			{
-				string path = importedAssets[i];
 				if (IsLocalData(path))
 				{
 					// 로컬데이터가 하나라도 새로 추가되거나 변경되었다면, bytes파일을 새로 만든다.

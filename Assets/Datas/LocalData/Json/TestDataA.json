@@ -1,0 +1,26 @@
+{
+  "datas": [
+    {
+      "ID": 1,
+      "Key": "1",
+      "Name": "PlayerA",
+      "HP": 100,
+      "MP": 200,
+      "Param": [
+        "ATK",
+        "DEF"
+      ]
+    },
+    {
+      "ID": 2,
+      "Key": "2",
+      "Name": "PlayerB",
+      "HP": 120,
+      "MP": 100,
+      "Param": [
+        "DEF",
+        "DEF"
+      ]
+    }
+  ]
+}
