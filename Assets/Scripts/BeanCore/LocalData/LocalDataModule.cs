@@ -22,6 +22,10 @@ namespace BC.LocalData
 		public List<T> datas = new List<T>();
 	}
 
+	/// <summary>
+	/// 게임에 사용될 로컬 데이터를 관리하는 모듈
+	/// 로컬데이터는 클라이언트 단에서 저장하고 관리하는 데이터로, 절대로 변경되어선 안되는 데이터이다. readonly
+	/// </summary>
 	public partial class LocalDataModule
 	{
 		public LocalDataModule()

@@ -3,47 +3,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MonoSingleton<T> : MonoBehaviour where T : Component
+namespace BC.Utils
 {
-    public static T Instance
+    public class MonoSingleton<T> : MonoBehaviour where T : Component
     {
-        get
+        public static T Instance
         {
-            if (instance == null)
+            get
             {
-                instance = FindAnyObjectByType<T>();
-
                 if (instance == null)
                 {
-                    GameObject obj = new GameObject(typeof(T).Name);
-                    instance = obj.AddComponent<T>();
+                    instance = FindAnyObjectByType<T>();
+
+                    if (instance == null)
+                    {
+                        GameObject obj = new GameObject(typeof(T).Name);
+                        instance = obj.AddComponent<T>();
+                    }
                 }
+
+                return instance;
             }
-            
-            return instance;
         }
-    }
 
-    private static T instance;
+        private static T instance;
 
-    private static bool isInit = false;
+        private static bool isInit = false;
 
-    protected void Awake()
-    {
-        if (isInit)
+        protected void Awake()
         {
-            Destroy(gameObject);
-            return;
-        }
-        
-        OnInit();
-    }
+            if (isInit)
+            {
+                Destroy(gameObject);
+                return;
+            }
 
-    // 초기화 시 1회 호출하는 함수
-    protected virtual void OnInit()
-    {
-        if(instance == null) instance = GetComponent<T>();
-        DontDestroyOnLoad(gameObject);
-        isInit = true;
+            OnInit();
+        }
+
+        // 초기화 시 1회 호출하는 함수
+        protected virtual void OnInit()
+        {
+            if (instance == null) instance = GetComponent<T>();
+            DontDestroyOnLoad(gameObject);
+            isInit = true;
+        }
     }
 }
