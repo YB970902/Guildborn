@@ -15,7 +15,7 @@ namespace BC.LocalData
 	public class LocalDataGenerator : AssetPostprocessor
 	{
 		// LocalDataBase를 상속받은 클래스인지 확인하기위한 정규식
-		private static readonly Regex classRegex = new Regex(@"");
+		private static readonly Regex classRegex = new Regex(@"public\s+partial\s+class\s+(\w+)\s*:\s*LocalDataBase");
 		private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
 		{
 			foreach (var path in importedAssets)
@@ -24,7 +24,8 @@ namespace BC.LocalData
 				if (path.Replace("\\", "/").StartsWith("Assets/Scripts/LocalData/") &&
 				    path.ToLowerInvariant().EndsWith(".cs"))
 				{
-					var match = classRegex.Match(path);
+					string code = File.ReadAllText(path);
+					var match = classRegex.Match(code);
 					// LocalDataBase를 상속받은 클래스가 있을때만 생성한다. 
 					if (!match.Success) continue;
 
