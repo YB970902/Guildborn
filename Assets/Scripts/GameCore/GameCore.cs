@@ -11,8 +11,11 @@ namespace GC
         [SerializeField] GameDataModule gameDataModule;
         public BattleModule Battle { get; private set; }
         public GameDataModule GameData => gameDataModule;
-        private void Awake()
+
+        protected override void OnInit()
         {
+            base.OnInit();
+            
             Battle = new BattleModule();
         }
     }
