@@ -8,9 +8,19 @@ namespace GC.Module
     {
         public PathFindModule PathFind { get; private set; }
 
-        public BattleModule(List<Transform> trTileList)
+        public BattleModule()
         {
-            PathFind = new PathFindModule(trTileList);
+            PathFind = new PathFindModule();
+        }
+
+        public void EnterBattle()
+        {
+            GameCore.Instance.GameData.LoadBattleData();
+        }
+
+        public void ExitBattle()
+        {
+            GameCore.Instance.GameData.UnloadBattleData();
         }
     }
 }

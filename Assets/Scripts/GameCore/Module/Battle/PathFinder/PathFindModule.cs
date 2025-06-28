@@ -14,9 +14,9 @@ namespace GC.Module
 
 		private List<PathFindHandler> handler;
 
-		public PathFindModule(List<Transform> trTileList)
+		public PathFindModule()
 		{
-			pathFinder = new PathFinder(trTileList);
+			pathFinder = new PathFinder();
 			// TODO : 임시 코드. 추후에 풀을 생성하는 방식으로 수정
 			handler = new List<PathFindHandler>();
 		}

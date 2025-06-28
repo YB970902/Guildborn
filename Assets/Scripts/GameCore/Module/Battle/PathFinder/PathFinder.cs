@@ -98,21 +98,12 @@ namespace GC.Module
 		/// <summary> 길찾기 연산에 필요한 인접 리스트 </summary>
 		private List<TileInfo> nearList;
 		
-		public PathFinder(List<Transform> trTileList)
+		public PathFinder()
 		{
 			tileInfoList = new TileInfo[Battle.TileXCount, Battle.TileYCount];
 			openList = new FastPriorityQueue<TileInfo>(Battle.TileXCount * Battle.TileYCount);
 			closeList = new List<TileInfo>(Battle.TileXCount * Battle.TileYCount);
 			nearList = new List<TileInfo>(6);
-
-			int tileIndex = 0;
-			for (int x = 0; x < Battle.TileXCount; ++x)
-			{
-				for (int y = 0; y < Battle.TileYCount; ++y)
-				{
-					tileInfoList[x, y] = new TileInfo(x, y, trTileList[tileIndex++].position);
-				}
-			}
 		}
 
 		/// <summary>
@@ -120,11 +111,13 @@ namespace GC.Module
 		/// </summary>
 		public void Init()
 		{
+			List<Transform> trTilePositionList = GameCore.Instance.GameData.TilePositionPack.TilePositionList;
+			int tileIndex = 0;
 			for (int x = 0; x < Battle.TileXCount; ++x)
 			{
 				for (int y = 0; y < Battle.TileYCount; ++y)
 				{
-					tileInfoList[x, y].Init();
+					tileInfoList[x, y] = new TileInfo(x, y, trTilePositionList[tileIndex++].position);
 				}
 			}
 		}
