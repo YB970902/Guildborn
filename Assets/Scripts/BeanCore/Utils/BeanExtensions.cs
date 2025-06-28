@@ -19,5 +19,36 @@ namespace BC.Utils
             return collection == null || collection.Count == 0;
         }
         #endregion
+        
+        #region Vector
+
+        public static void Copy(this Vector2 vec, in Vector2 target)
+        {
+            vec.x = target.x;
+            vec.y = target.y;
+        }
+
+        public static void Copy(this Vector3 vec, in Vector3 target)
+        {
+            vec.x = target.x;
+            vec.y = target.y;
+            vec.z = target.z;
+        }
+        
+        public static void Copy(this Vector2Int vec, in Vector2Int target)
+        {
+            vec.x = target.x;
+            vec.y = target.y;
+        }
+
+        public static void Copy(this Vector3Int vec, in Vector3Int target)
+        {
+            vec.x = target.x;
+            vec.y = target.y;
+            vec.z = target.z;
+        }
+        
+        
+        #endregion
     }
 }
