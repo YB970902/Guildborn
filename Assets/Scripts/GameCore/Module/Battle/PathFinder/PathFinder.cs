@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using GameCore.Utils.Define;
+using GC.Utils.Define;
 using Priority_Queue;
 using UnityEngine;
 
-namespace GameCore.BattleModule.PathFinder
+namespace GC.Module
 {
 	/// <summary>
 	/// 길찾기를 처리하는 모듈.
@@ -19,7 +19,11 @@ namespace GameCore.BattleModule.PathFinder
 		public class TileInfo : FastPriorityQueueNode
 		{
 			/// <summary> 타일의 인덱스 </summary>
-			public Vector2Int Index;
+			public Vector2Int Index { get; private set; }
+			/// <summary> 타일의 월드 좌표상의 위치
+			/// TODO : 지금은 임시로 Vector2를 사용하지만 추후에 바꿔야함.
+			/// </summary>
+			public Vector2 Position { get; private set; }
 			/// <summary> 이 타일을 점유중인 유닛의 고유 인덱스 </summary>
 			public long OccupiedUnitIdx { get; private set; }
 			/// <summary> 이 타일로 이동하기 위해 예약한 유닛의 고유 인덱스 </summary>
@@ -60,9 +64,10 @@ namespace GameCore.BattleModule.PathFinder
 			
 			#endregion
 
-			public TileInfo(int x, int y)
+			public TileInfo(int x, int y, Vector2 position)
 			{
 				Index = new Vector2Int(x, y);
+				Position = position;
 			}
 			
 			public void Init()
@@ -93,18 +98,19 @@ namespace GameCore.BattleModule.PathFinder
 		/// <summary> 길찾기 연산에 필요한 인접 리스트 </summary>
 		private List<TileInfo> nearList;
 		
-		public PathFinder()
+		public PathFinder(List<Transform> trTileList)
 		{
 			tileInfoList = new TileInfo[Battle.TileXCount, Battle.TileYCount];
 			openList = new FastPriorityQueue<TileInfo>(Battle.TileXCount * Battle.TileYCount);
 			closeList = new List<TileInfo>(Battle.TileXCount * Battle.TileYCount);
 			nearList = new List<TileInfo>(6);
-			
+
+			int tileIndex = 0;
 			for (int x = 0; x < Battle.TileXCount; ++x)
 			{
 				for (int y = 0; y < Battle.TileYCount; ++y)
 				{
-					tileInfoList[x, y] = new TileInfo(x, y);
+					tileInfoList[x, y] = new TileInfo(x, y, trTileList[tileIndex++].position);
 				}
 			}
 		}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using BC.Utils;
 using UnityEngine;
 
-namespace GameCore.BattleModule.PathFinder
+namespace GC.Module
 {
 	/// <summary>
 	/// 길찾기를 처리해주는 핸들러.
@@ -17,7 +17,7 @@ namespace GameCore.BattleModule.PathFinder
 		/// 다음 타일로 이동했다면 경로를 하나씩 지우기 때문에 마지막 인덱스에 있는 타일은 내가 다음에 이동해야할 타일이다.
 		/// 제거되지 않고 계속 재사용되므로, 참조할때 주의
 		/// </summary>
-		public List<Vector2Int> Path { get; private set; }
+		private List<Vector2Int> path;
 		/// <summary> 현재 위치의 타일 </summary>
 		public Vector2Int CurrentTile { get; private set; }
 		/// <summary> 유닛이 이동해야 하는 다음 타일 </summary>
@@ -29,7 +29,7 @@ namespace GameCore.BattleModule.PathFinder
 
 		public PathFindHandler(PathFinder pathFinder)
 		{
-			Path = new List<Vector2Int>();
+			path = new List<Vector2Int>();
 			this.pathFinder = pathFinder;
 		}
 
@@ -41,5 +41,20 @@ namespace GameCore.BattleModule.PathFinder
 		{
 			// TODO : 다음 노드에 도착했는지 검사하기. 도착했다면, 경로를 갱신하고 pathFinder에게 요청한다. 
 		}
+		
+		#if UNITY_EDITOR
+		/// <summary>
+		/// 테스트용 길찾기 요청
+		/// </summary>
+		public void GetPathForDebug(in Vector2Int start, in Vector2Int end)
+		{
+			pathFinder.FindPath(start, end, ref path);
+
+			for(int i = 0; i < path.Count; ++i)
+			{
+				Debug.Log($"Index : {i}, X : {path[i].x}, Y : {path[i].y}");
+			}
+		}
+		#endif
 	}
 }

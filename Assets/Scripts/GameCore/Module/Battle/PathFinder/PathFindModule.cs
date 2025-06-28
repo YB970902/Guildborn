@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GameCore.BattleModule.PathFinder
+namespace GC.Module
 {
 	/// <summary>
 	/// 길찾기 모듈
@@ -14,9 +14,9 @@ namespace GameCore.BattleModule.PathFinder
 
 		private List<PathFindHandler> handler;
 
-		public PathFindModule()
+		public PathFindModule(List<Transform> trTileList)
 		{
-			pathFinder = new PathFinder();
+			pathFinder = new PathFinder(trTileList);
 			// TODO : 임시 코드. 추후에 풀을 생성하는 방식으로 수정
 			handler = new List<PathFindHandler>();
 		}
@@ -27,7 +27,7 @@ namespace GameCore.BattleModule.PathFinder
 		public PathFindHandler GetHandler()
 		{
 			// TODO : 지금은 임시 코드. 오브젝트 풀로 관리하기.
-			return handler.Count > 0 ? handler[0] : null;
+			return new PathFindHandler(pathFinder);
 		}
 	}
 }
