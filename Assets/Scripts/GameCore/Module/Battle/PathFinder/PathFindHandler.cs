@@ -18,29 +18,28 @@ namespace GameCore.BattleModule.PathFinder
 		/// 제거되지 않고 계속 재사용되므로, 참조할때 주의
 		/// </summary>
 		public List<Vector2Int> Path { get; private set; }
-		
+		/// <summary> 현재 위치의 타일 </summary>
 		public Vector2Int CurrentTile { get; private set; }
+		/// <summary> 유닛이 이동해야 하는 다음 타일 </summary>
+		public Vector2Int NextTile { get; private set; }
+		/// <summary>
+		/// 길찾기 인스턴스
+		/// </summary>
+		private PathFinder pathFinder;
 
-		public PathFindHandler()
+		public PathFindHandler(PathFinder pathFinder)
 		{
 			Path = new List<Vector2Int>();
+			this.pathFinder = pathFinder;
 		}
 
 		/// <summary>
-		/// 다음 경로를 반환한다.
+		/// 유닛이 이동할경우 여기에 현재 위치를 넣는다.
+		/// TODO : 현재는 위치값을 Vector2를 받지만, 추후에 고정소수점을 사용하는 벡터로 수정되어야함.
 		/// </summary>
-		/// <param name="nextPath"> 다음 경로를 반환한다. 다음 경로가 없다면, 현재 경로를 반환한다. </param>
-		/// <returns> 다음 경로가 있는지 여부 </returns>
-		public bool GetNextPath(out Vector2Int nextPath)
+		public void Update(Vector2 position)
 		{
-			if (Path.IsNullOrEmpty())
-			{
-				nextPath = CurrentTile;
-				return false;
-			}
-
-			nextPath = CurrentTile;
-			return true;
+			// TODO : 다음 노드에 도착했는지 검사하기. 도착했다면, 경로를 갱신하고 pathFinder에게 요청한다. 
 		}
 	}
 }
