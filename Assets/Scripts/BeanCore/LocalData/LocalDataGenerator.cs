@@ -39,7 +39,7 @@ namespace BC.LocalData
 		/// <summary>
 		/// LocalDataImplement.cs 파일을 생성하는 함수
 		/// </summary>
-		private static void GenerateLocalDataImplement()
+		public static void GenerateLocalDataImplement()
 		{
 			List<string> classNames = FindDerivedTypes<LocalDataBase>();
 			
