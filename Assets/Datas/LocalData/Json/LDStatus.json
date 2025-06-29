@@ -1,0 +1,24 @@
+{
+  "datas": [
+    {
+      "ID": 1,
+      "Key": "1.0",
+      "Attack": 15,
+      "Defence": 5,
+      "Health": 100,
+      "AttackSpeed": 0,
+      "MoveSpeed": 0,
+      "AttackRange": 1
+    },
+    {
+      "ID": 1,
+      "Key": "1.0",
+      "Attack": 10,
+      "Defence": 2,
+      "Health": 80,
+      "AttackSpeed": 0,
+      "MoveSpeed": 0,
+      "AttackRange": 3
+    }
+  ]
+}

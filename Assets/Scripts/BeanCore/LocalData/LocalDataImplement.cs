@@ -4,19 +4,16 @@ namespace BC.LocalData
 	public partial class LocalDataModule
 	{
 
-		public LocalDataList<TestData> TestData {get; private set; }
-		public LocalDataList<TestDataA> TestDataA {get; private set; }
+		public LocalDataList<LDStatus> LDStatus {get; private set; }
 
 		public static void SaveAllData()
 		{
-			SaveData<TestData>();
-			SaveData<TestDataA>();
+			SaveData<LDStatus>();
 		}
 
 		public void LoadAllData()
 		{
-			TestData = LoadData<TestData>();
-			TestDataA = LoadData<TestDataA>();
+			LDStatus = LoadData<LDStatus>();
 		}
 	}
 }
