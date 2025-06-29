@@ -23,11 +23,11 @@ namespace BC.LocalData
 		/// <summary>
 		/// 공격속도
 		/// </summary>
-		public float AttackSpeed;
+		public double AttackSpeed;
 		/// <summary>
 		/// 이동속도
 		/// </summary>
-		public float MoveSpeed;
+		public double MoveSpeed;
 		/// <summary>
 		/// 공격 범위
 		/// </summary>
