@@ -17,9 +17,9 @@ namespace BC.LocalData
 		/// </summary>
 		public int Defence;
 		/// <summary>
-		/// 체력
+		/// 최대 체력
 		/// </summary>
-		public int Health;
+		public int MaxHealth;
 		/// <summary>
 		/// 공격속도
 		/// </summary>
