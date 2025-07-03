@@ -9,12 +9,9 @@ namespace GC.FSM
 	/// Evaluator와 Blackboard를 가지고 있으며, 상태를 추가할 수 있다.
 	/// 자체적인 업데이트는 없고, 외부에서만 업데이트 할 수 있다.
 	/// </summary>
-	public class FiniteStateMachine<TEvaluator, TBlackboard>
-		where TBlackboard : IBlackboard, new() 
-		where TEvaluator : EvaluatorBase<TBlackboard>, new()
+	public class FiniteStateMachine
 	{
-		private TBlackboard blackboard;
-		private TEvaluator evaluator;
+		private IEvaluatorBase evaluator;
 
 		/// <summary> 현재 상태의 키 </summary>
 		private string currStateKey;
@@ -24,11 +21,15 @@ namespace GC.FSM
 		/// <summary>
 		/// 블랙보드는 외부에서 수정할 수 있어야 하므로, 외부에서 생성해서 넣어준다.
 		/// </summary>
-		public FiniteStateMachine(TBlackboard blackboard)
+		public FiniteStateMachine(IEvaluatorBase evaluator)
 		{
-			this.blackboard = blackboard;
-			evaluator = new TEvaluator();
+			this.evaluator = evaluator;
 			currStateKey = string.Empty;
+		}
+
+		public void Init()
+		{
+			evaluator.Init();
 		}
 
 		/// <summary>

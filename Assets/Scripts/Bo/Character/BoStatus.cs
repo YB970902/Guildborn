@@ -62,6 +62,16 @@ namespace Bo
 			MoveSpeed += addition.MoveSpeed;
 			AttackRange += addition.AttackRange;
 		}
+		
+		public void Copy(BoStatus status)
+		{
+			Attack = status.Attack;
+			Defence = status.Defence;
+			MaxHealth = status.MaxHealth;
+			AttackSpeed = status.AttackSpeed;
+			MoveSpeed = status.MoveSpeed;
+			AttackRange = status.AttackRange;
+		}
 
 		public BoStatus Clone()
 		{
