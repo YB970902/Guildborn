@@ -22,6 +22,10 @@ namespace GC.Module
 		public Vector2Int CurrentTile { get; private set; }
 		/// <summary> 유닛이 이동해야 하는 다음 타일 </summary>
 		public Vector2Int NextTile { get; private set; }
+		/// <summary> 유닛이 최종적으로 도착해야하는 타일 </summary>
+		public Vector2Int DestTile { get; private set; }
+		/// <summary> 목적지에 도착했는지 여부 </summary>
+		public bool IsArrived => path.IsNullOrEmpty();
 		/// <summary>
 		/// 길찾기 인스턴스
 		/// </summary>

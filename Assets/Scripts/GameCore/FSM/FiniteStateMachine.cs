@@ -33,6 +33,14 @@ namespace GC.FSM
 		}
 
 		/// <summary>
+		/// 상태를 추가한다.
+		/// </summary>
+		public void AddState(string stateKey, IState state)
+		{
+			states[stateKey] = state;
+		}
+
+		/// <summary>
 		/// 현재 상태를 실행한다.
 		/// </summary>
 		public void Execute()
