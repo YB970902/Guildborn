@@ -16,7 +16,7 @@ namespace Bo
 		public int MaxHealth { get; private set; }
 		/// <summary> 공격 속도 (1회 공격 시 드는 시간) </summary>
 		public Fixed64 AttackSpeed { get; private set; }
-		/// <summary> 이동 속도 (1초당 이동량) </summary>
+		/// <summary> 이동 속도 (타일 한 칸 건너는데 걸리는 시간) </summary>
 		public Fixed64 MoveSpeed { get; private set; }
 		/// <summary> 공격 범위(최소 1) </summary>
 		public int AttackRange { get; private set; }

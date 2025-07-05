@@ -25,7 +25,7 @@ namespace BC.LocalData
 		/// </summary>
 		public double AttackSpeed;
 		/// <summary>
-		/// 이동속도
+		/// 이동속도(타일 한 칸 건너는데 걸리는 시간)
 		/// </summary>
 		public double MoveSpeed;
 		/// <summary>

@@ -11,18 +11,20 @@ namespace GC.FSM
 	/// </summary>
 	public class FiniteStateMachine
 	{
+		private IBlackboard blackboard;
 		private IEvaluatorBase evaluator;
 
 		/// <summary> 현재 상태의 키 </summary>
 		private string currStateKey;
 
-		private Dictionary<string, IState> states;
+		private Dictionary<string, StateBase> states;
 
 		/// <summary>
 		/// 블랙보드는 외부에서 수정할 수 있어야 하므로, 외부에서 생성해서 넣어준다.
 		/// </summary>
-		public FiniteStateMachine(IEvaluatorBase evaluator)
+		public FiniteStateMachine(IEvaluatorBase evaluator, IBlackboard blackboard)
 		{
+			this.blackboard = blackboard;
 			this.evaluator = evaluator;
 			currStateKey = string.Empty;
 		}
@@ -35,9 +37,16 @@ namespace GC.FSM
 		/// <summary>
 		/// 상태를 추가한다.
 		/// </summary>
-		public void AddState(string stateKey, IState state)
+		public void AddState(string stateKey, StateBase stateBase)
 		{
-			states[stateKey] = state;
+			if (stateBase.CheckType(blackboard))
+			{
+				states[stateKey] = stateBase;
+			}
+			else
+			{
+				Debug.LogError($"Can't add state : {stateKey}");
+			}
 		}
 
 		/// <summary>
@@ -47,19 +56,19 @@ namespace GC.FSM
 		{
 			// 정보를 기준으로 상태를 평가한다.
 			string stateKey = evaluator.Evaluate();
-			IState currState = states[currStateKey];
+			StateBase currStateBase = states[currStateKey];
 			
 			// 상태가 바뀌었다면 상태 전환을 수행한다. 
 			if (stateKey != currStateKey)
 			{
-				currState.Exit();
+				currStateBase.Exit(blackboard);
 				currStateKey = stateKey;
-				currState = states[currStateKey];
-				currState.Enter();
+				currStateBase = states[currStateKey];
+				currStateBase.Enter(blackboard);
 			}
 
 			// 현재 상태를 수행한다.
-			currState.Execute();
+			currStateBase.Execute(blackboard);
 		}
 	}
 }

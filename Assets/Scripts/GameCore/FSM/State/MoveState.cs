@@ -4,19 +4,25 @@ using UnityEngine;
 
 namespace GC.FSM
 {
-	public class MoveState : IState
+	public class MoveStateBase : StateBase
 	{
-		public void Enter()
+
+		public override bool CheckType(IBlackboard blackboard)
+		{
+			return blackboard is IMovableBlackboard;
+		}
+
+		public override void Enter(IBlackboard blackboard)
 		{
 			
 		}
 
-		public void Execute()
+		public override void Execute(IBlackboard blackboard)
 		{
 			
 		}
 
-		public void Exit()
+		public override void Exit(IBlackboard blackboard)
 		{
 			
 		}

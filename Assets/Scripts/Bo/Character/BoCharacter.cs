@@ -25,7 +25,7 @@ namespace Bo
 		{
 			pathFindHandler = GameCore.Instance.Battle.PathFind.GetHandler();
 			blackboard = new BbCharacter(ldStatus, pathFindHandler);
-			stateMachine = new FiniteStateMachine(new EvCharacter(blackboard));
+			stateMachine = new FiniteStateMachine(new EvCharacter(blackboard), blackboard);
 		}
 
 		public void Init()
