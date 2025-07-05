@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using BC.Utils;
+using FixedMathSharp;
 using UnityEngine;
 
 namespace GC.Module
@@ -26,24 +27,51 @@ namespace GC.Module
 		public Vector2Int DestTile { get; private set; }
 		/// <summary> 목적지에 도착했는지 여부 </summary>
 		public bool IsArrived => path.IsNullOrEmpty();
-		/// <summary>
-		/// 길찾기 인스턴스
-		/// </summary>
+		/// <summary> 월드 좌표계상의 위치 </summary>
+		public Vector2 Position { get; private set; }
+		/// <summary> 길찾기 인스턴스 </summary>
 		private PathFinder pathFinder;
 
+		/// <summary> 지금까지 이동한 비율. 1 이상이면 다음 타일에 도착했다. </summary>
+		private Fixed64 durationDist;
+
+		/// <summary> 유닛을 식별하기위한 고유 인덱스 </summary>
+		private long unitIdx;
+		
 		public PathFindHandler(PathFinder pathFinder)
 		{
 			path = new List<Vector2Int>();
 			this.pathFinder = pathFinder;
 		}
 
-		/// <summary>
-		/// 유닛이 이동할경우 여기에 현재 위치를 넣는다.
-		/// TODO : 현재는 위치값을 Vector2를 받지만, 추후에 고정소수점을 사용하는 벡터로 수정되어야함.
-		/// </summary>
-		public void Update(Vector2 position)
+		public void Set(long unitIdx)
 		{
-			// TODO : 다음 노드에 도착했는지 검사하기. 도착했다면, 경로를 갱신하고 pathFinder에게 요청한다. 
+			this.unitIdx = unitIdx;
+		}
+
+		/// <summary>
+		/// 이동을 수행한다.
+		/// </summary>
+		public void Move(Fixed64 moveSpeed)
+		{
+			// 타일 1칸을 이동하는데 걸리는 시간을, 1Tick당 이동한 거리(비율)로 변환한다.
+			Fixed64 delta = BattleModule.DeltaTime / moveSpeed;
+			
+			// 중간을 넘어섰다면, 타일 이동 처리를 한다.
+			if (durationDist < Fixed64.Half && durationDist + delta >= Fixed64.Half)
+			{
+				// 현재 위치의 타일을 벗어났으므로 0으로 처리한다.
+				pathFinder.SetOccupyTile(0, CurrentTile);
+				pathFinder.SetReserveTile(0, NextTile);
+				pathFinder.SetOccupyTile(unitIdx, NextTile);
+			}
+			// 1을 넘었다면, 목적지에 도착했다. 다음 길찾기를 수행한다.
+			else if (durationDist + delta > Fixed64.One)
+			{
+				
+			}
+
+			durationDist += delta;
 		}
 		
 		#if UNITY_EDITOR

@@ -17,15 +17,11 @@ namespace GC.FSM
         /// 스테이터스가 중간에 변할수도 있기 때문에 원본 스테이터스를 가지고 있는다.
         /// </summary>
         public BoStatus OriginalStatus { get; private set; }
+        /// <summary> 현재 스테이터. 버프나 여러 효과가 적용된 스테이터스이다. </summary>
         public BoStatus CurrentStatus { get; private set; }
         public bool IsDead => CurrentHealth <= 0;
         public int CurrentHealth { get; private set; }
-        
         public PathFindHandler PathFindHandler { get; private set; }
-        
-        public Vector2Int CurrentTile => PathFindHandler.CurrentTile;
-        public Vector2Int DestTile => PathFindHandler.DestTile;
-        public bool IsArrived => PathFindHandler.IsArrived;
 
         public BbCharacter(LDStatus ldStatus, PathFindHandler pathFindHandler)
         {

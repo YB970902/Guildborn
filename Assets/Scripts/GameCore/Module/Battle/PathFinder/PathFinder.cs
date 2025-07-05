@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FixedMathSharp;
 using GC.Utils.Define;
 using Priority_Queue;
 using UnityEngine;
@@ -21,9 +22,8 @@ namespace GC.Module
 			/// <summary> 타일의 인덱스 </summary>
 			public Vector2Int Index { get; private set; }
 			/// <summary> 타일의 월드 좌표상의 위치
-			/// TODO : 지금은 임시로 Vector2를 사용하지만 추후에 바꿔야함.
 			/// </summary>
-			public Vector2 Position { get; private set; }
+			public Vector2d Position { get; private set; }
 			/// <summary> 이 타일을 점유중인 유닛의 고유 인덱스 </summary>
 			public long OccupiedUnitIdx { get; private set; }
 			/// <summary> 이 타일로 이동하기 위해 예약한 유닛의 고유 인덱스 </summary>
@@ -67,7 +67,7 @@ namespace GC.Module
 			public TileInfo(int x, int y, Vector2 position)
 			{
 				Index = new Vector2Int(x, y);
-				Position = position;
+				Position = new Vector2d(position.x, position.y);
 			}
 			
 			public void Init()
@@ -82,10 +82,22 @@ namespace GC.Module
 			/// </summary>
 			public void SetReserve(long unitIdx)
 			{
-				#if UNITY_EDITOR
+#if UNITY_EDITOR
 				if(Debugging.DebugPathFinder) Debug.Log($"SetReserve {ReservedUnitIdx} > {unitIdx}");
-				#endif
+#endif
 				ReservedUnitIdx = unitIdx;
+			}
+
+			/// <summary>
+			/// 타일을 점령한다.
+			/// Idx가 0이라면 점령을 취소한다는 의미이다.
+			/// </summary>
+			public void SetOccupy(long unitIdx)
+			{
+#if UNITY_EDITOR
+				if(Debugging.DebugPathFinder) Debug.Log($"SetOccupy {OccupiedUnitIdx} > {unitIdx}");
+#endif
+				OccupiedUnitIdx = unitIdx;
 			}
 		}
 		
@@ -325,6 +337,11 @@ namespace GC.Module
 		public void SetReserveTile(long unitIdx, in Vector2Int index)
 		{
 			tileInfoList[index.x, index.y].SetReserve(unitIdx);
+		}
+
+		public void SetOccupyTile(long unitIdx, in Vector2Int index)
+		{
+			tileInfoList[index.x, index.y].SetOccupy(unitIdx);
 		}
 	}
 }

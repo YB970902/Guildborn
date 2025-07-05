@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Bo;
+using GC.Module;
 using UnityEngine;
 
 namespace GC.FSM
@@ -19,9 +20,9 @@ namespace GC.FSM
 	public interface IStatusBlackboard
 	{
 		/// <summary>
-		/// 원본 스테이터스 정보
+		/// 스테이터스 정보
 		/// </summary>
-		public BoStatus OriginalStatus { get; }
+		public BoStatus CurrentStatus { get; }
 	}
 
 	/// <summary>
@@ -45,16 +46,8 @@ namespace GC.FSM
 	public interface IMovableBlackboard
 	{
 		/// <summary>
-		/// 현재 서 있는 타일 정보
+		/// 길찾기 핸들러
 		/// </summary>
-		public Vector2Int CurrentTile { get; }
-		/// <summary>
-		/// 목적지 타일
-		/// </summary>
-		public Vector2Int DestTile { get; }
-		/// <summary>
-		/// 목적지에 도착했는지 여부
-		/// </summary>
-		public bool IsArrived { get; }
+		public PathFindHandler PathFindHandler { get; }
 	}
 }
