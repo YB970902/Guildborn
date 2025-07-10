@@ -16,7 +16,11 @@ namespace GC
         {
             base.OnInit();
             
+            // 모듈 생성
             Battle = new BattleModule();
+            
+            // 모듈 초기화
+            Battle.Init();
         }
     }
 }

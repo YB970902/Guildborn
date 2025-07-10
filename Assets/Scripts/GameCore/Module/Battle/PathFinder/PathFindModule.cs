@@ -17,8 +17,14 @@ namespace GC.Module
 		public PathFindModule()
 		{
 			pathFinder = new PathFinder();
+			pathFinder.Init();
 			// TODO : 임시 코드. 추후에 풀을 생성하는 방식으로 수정
 			handler = new List<PathFindHandler>();
+		}
+
+		public void Init()
+		{
+			pathFinder.Init();
 		}
 
 		/// <summary>

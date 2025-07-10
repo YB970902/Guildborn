@@ -6,9 +6,11 @@ using UnityEngine;
 
 namespace GC.FSM
 {
-	public class MoveStateBase : StateBase
+	/// <summary>
+	/// 목표 타일까지 이동한다.
+	/// </summary>
+	public class MoveState : StateBase
 	{
-
 		public override bool CheckType(IBlackboard blackboard)
 		{
 			return blackboard is IMovableBlackboard and IStatusBlackboard;

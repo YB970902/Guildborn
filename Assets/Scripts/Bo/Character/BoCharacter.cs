@@ -26,11 +26,19 @@ namespace Bo
 			pathFindHandler = GameCore.Instance.Battle.PathFind.GetHandler();
 			blackboard = new BbCharacter(ldStatus, pathFindHandler);
 			stateMachine = new FiniteStateMachine(new EvCharacter(blackboard), blackboard);
+			stateMachine.AddState("Move", new MoveState());
+			stateMachine.AddState("Idle", new IdleState());
 		}
 
 		public void Init()
 		{
 			stateMachine.Init();
+		}
+		
+		public void Update()
+		{
+			// TODO : 버프 처리하기
+			stateMachine.Execute();
 		}
 	}
 }

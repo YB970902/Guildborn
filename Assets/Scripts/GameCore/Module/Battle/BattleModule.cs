@@ -14,6 +14,11 @@ namespace GC.Module
             PathFind = new PathFindModule();
         }
 
+        public void Init()
+        {
+            PathFind.Init();
+        }
+
         public void EnterBattle()
         {
             GameCore.Instance.GameData.LoadBattleData();

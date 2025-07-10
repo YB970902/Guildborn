@@ -21,9 +21,8 @@ namespace GC.Module
 		{
 			/// <summary> 타일의 인덱스 </summary>
 			public Vector2Int Index { get; private set; }
-			/// <summary> 타일의 월드 좌표상의 위치
-			/// </summary>
-			public Vector2d Position { get; private set; }
+			/// <summary> 타일의 월드 좌표상의 위치 </summary>
+			public Vector2 Position { get; private set; }
 			/// <summary> 이 타일을 점유중인 유닛의 고유 인덱스 </summary>
 			public long OccupiedUnitIdx { get; private set; }
 			/// <summary> 이 타일로 이동하기 위해 예약한 유닛의 고유 인덱스 </summary>
@@ -67,7 +66,7 @@ namespace GC.Module
 			public TileInfo(int x, int y, Vector2 position)
 			{
 				Index = new Vector2Int(x, y);
-				Position = new Vector2d(position.x, position.y);
+				Position = position;
 			}
 			
 			public void Init()
@@ -342,6 +341,11 @@ namespace GC.Module
 		public void SetOccupyTile(long unitIdx, in Vector2Int index)
 		{
 			tileInfoList[index.x, index.y].SetOccupy(unitIdx);
+		}
+
+		public Vector2 GetPosition(in Vector2Int index)
+		{
+			return tileInfoList[index.x, index.y].Position;
 		}
 	}
 }
