@@ -3,9 +3,8 @@ namespace BC.LocalData
 {
 	public partial class LocalDataModule
 	{
-
-		public LocalDataList<LDStatus> LDStatus {get; private set; }
-		public LocalDataList<LDCharacter> LDCharacter {get; private set; }
+		public LocalDataList<LDStatus> Status {get; private set; }
+		public LocalDataList<LDCharacter> Character {get; private set; }
 
 		public static void SaveAllData()
 		{
@@ -15,8 +14,8 @@ namespace BC.LocalData
 
 		public void LoadAllData()
 		{
-			LDStatus = LoadData<LDStatus>();
-			LDCharacter = LoadData<LDCharacter>();
+			Status = LoadData<LDStatus>();
+			Character = LoadData<LDCharacter>();
 		}
 	}
 }

@@ -50,11 +50,11 @@ namespace BC.LocalData
 			sb.AppendLine("{");
 			sb.AppendLine("\tpublic partial class LocalDataModule");
 			sb.AppendLine("\t{");
-			sb.AppendLine();
 			
 			foreach (string className in classNames)
 			{
-				sb.AppendLine($"\t\tpublic LocalDataList<{className}> {className} {{get; private set; }}");
+				string varName = className.Substring(2);
+				sb.AppendLine($"\t\tpublic LocalDataList<{className}> {varName} {{get; private set; }}");
 			}
 			
 			sb.AppendLine();
@@ -70,7 +70,8 @@ namespace BC.LocalData
 			sb.AppendLine("\t\t{");
 			foreach (string className in classNames)
 			{
-				sb.AppendLine($"\t\t\t{className} = LoadData<{className}>();");
+				string varName = className.Substring(2);
+				sb.AppendLine($"\t\t\t{varName} = LoadData<{className}>();");
 			}
 			sb.AppendLine("\t\t}");
 			sb.AppendLine("\t}");

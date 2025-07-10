@@ -20,6 +20,20 @@ namespace BC.LocalData
 	public partial class LocalDataList<T> where T : LocalDataBase
 	{
 		public List<T> datas = new List<T>();
+		public Dictionary<int, T> dictID = new Dictionary<int, T>();
+		public Dictionary<string, T> dictKey = new Dictionary<string, T>();
+
+		public T this[int id] => dictID[id];
+		public T this[string key] => dictKey[key];
+
+		public void Init()
+		{
+			for (int i = 0, count = datas.Count; i < count; ++i)
+			{
+				dictID[datas[i].ID] = datas[i];
+				dictKey[datas[i].Key] = datas[i];
+			}
+		}
 	}
 
 	/// <summary>
@@ -53,6 +67,7 @@ namespace BC.LocalData
 			string json = File.ReadAllText(jsonPath);
 
 			LocalDataList<T> dataList = JsonConvert.DeserializeObject<LocalDataList<T>>(json);
+			dataList.Init();
 
 			byte[] bytes = MemoryPackSerializer.Serialize(dataList);
 			File.WriteAllBytes(bytesPath, bytes);
