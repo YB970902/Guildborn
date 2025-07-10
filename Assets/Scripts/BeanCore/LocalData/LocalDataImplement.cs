@@ -5,15 +5,18 @@ namespace BC.LocalData
 	{
 
 		public LocalDataList<LDStatus> LDStatus {get; private set; }
+		public LocalDataList<LDCharacter> LDCharacter {get; private set; }
 
 		public static void SaveAllData()
 		{
 			SaveData<LDStatus>();
+			SaveData<LDCharacter>();
 		}
 
 		public void LoadAllData()
 		{
 			LDStatus = LoadData<LDStatus>();
+			LDCharacter = LoadData<LDCharacter>();
 		}
 	}
 }
