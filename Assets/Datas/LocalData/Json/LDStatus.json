@@ -2,7 +2,7 @@
   "datas": [
     {
       "ID": 1,
-      "Key": "1.0",
+      "Key": "1",
       "Attack": 15,
       "Defence": 5,
       "Health": 100,
@@ -12,7 +12,7 @@
     },
     {
       "ID": 1,
-      "Key": "1.0",
+      "Key": "1",
       "Attack": 10,
       "Defence": 2,
       "Health": 80,

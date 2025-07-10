@@ -89,3 +89,7 @@ crashlytics-build.properties
 
 # Rider
 /.idea
+
+# LocalData xlsx
+/[Aa]ssets/Datas/LocalData/*.xlsx
+/[Aa]ssets/Datas/LocalData/*.xlsx.meta
