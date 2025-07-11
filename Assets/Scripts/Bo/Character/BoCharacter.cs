@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BC;
 using BC.LocalData;
 using GC;
 using GC.FSM;
@@ -11,7 +12,7 @@ namespace Bo
 	public class BoCharacter
 	{
 		/// <summary> 캐릭터를 구분할 수 있는 고유 인덱스 </summary>
-		public long CharacterIdx { get; private set; }
+		public long UnitIdx { get; private set; }
 		/// <summary> 캐릭터 소유자의 아이디 </summary>
 		public int OwnerID { get; private set; }
 		/// <summary> 캐릭터의 상태를 가지고있는 블랙보드 </summary>
@@ -21,8 +22,11 @@ namespace Bo
 		
 		private FiniteStateMachine stateMachine;
 
-		public BoCharacter(LDStatus ldStatus)
+		public BoCharacter(long unitIdx, int ownerID, LDCharacter ldCharacter)
 		{
+			UnitIdx = unitIdx;
+			OwnerID = ownerID;
+			LDStatus ldStatus = BeanCore.Instance.LD.Status[ldCharacter.StatusID];
 			pathFindHandler = GameCore.Instance.Battle.PathFind.GetHandler();
 			blackboard = new BbCharacter(ldStatus, pathFindHandler);
 			stateMachine = new FiniteStateMachine(new EvCharacter(blackboard), blackboard);

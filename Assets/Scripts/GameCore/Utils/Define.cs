@@ -24,5 +24,16 @@ namespace GC.Utils.Define
 		public const int TileXCount = 5;
 		/// <summary> 타일 Y축 개수 </summary>
 		public const int TileYCount = 5;
+		
+		public enum LocalCommandType
+		{
+			Attack,		// 일반 공격
+			UseSkill,	// 스킬 사용
+		}
+
+		public enum RemoteCommandType
+		{
+			
+		}
 	}
 }
