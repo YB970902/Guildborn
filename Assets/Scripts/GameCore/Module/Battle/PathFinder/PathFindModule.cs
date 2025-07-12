@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BC.Utils;
 using UnityEngine;
 
 namespace GC.Module
@@ -10,21 +11,21 @@ namespace GC.Module
 	/// </summary>
 	public class PathFindModule
 	{
-		private PathFinder pathFinder;
+		public PathFinder PathFinder { get; private set; }
 
-		private List<PathFindHandler> handler;
+		private ObjectPool<PathFindHandler> handlerPool;
 
 		public PathFindModule()
 		{
-			pathFinder = new PathFinder();
-			pathFinder.Init();
-			// TODO : 임시 코드. 추후에 풀을 생성하는 방식으로 수정
-			handler = new List<PathFindHandler>();
+			PathFinder = new PathFinder();
+			PathFinder.Init();
+			handlerPool = new ObjectPool<PathFindHandler>();
 		}
 
 		public void Init()
 		{
-			pathFinder.Init();
+			PathFinder.Init();
+			handlerPool.Init();
 		}
 
 		/// <summary>
@@ -32,8 +33,7 @@ namespace GC.Module
 		/// </summary>
 		public PathFindHandler GetHandler()
 		{
-			// TODO : 지금은 임시 코드. 오브젝트 풀로 관리하기.
-			return new PathFindHandler(pathFinder);
+			return handlerPool.Pop();
 		}
 	}
 }

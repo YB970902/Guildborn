@@ -10,7 +10,7 @@ namespace GC.Module
 	/// 길찾기를 처리해주는 핸들러.
 	/// PathFinder와 통신하는 실질적은 클래스로, 유닛과 경로와 관련된 의존성을 없애기 위해 따로 존재한다. 
 	/// </summary>
-	public class PathFindHandler
+	public class PathFindHandler : PoolingObject<PathFindHandler>
 	{
 		/// <summary>
 		/// 경로를 담고있는 리스트
@@ -36,10 +36,10 @@ namespace GC.Module
 		/// <summary> 유닛을 식별하기위한 고유 인덱스 </summary>
 		private long unitIdx;
 		
-		public PathFindHandler(PathFinder pathFinder)
+		public PathFindHandler()
 		{
 			path = new List<Vector2Int>();
-			this.pathFinder = pathFinder;
+			pathFinder = GameCore.Instance.Battle.PathFind.PathFinder;
 		}
 
 		public void Set(long unitIdx)
