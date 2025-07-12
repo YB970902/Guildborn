@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BC.Utils;
 using DocumentFormat.OpenXml.Office2016.Drawing.Command;
 using DocumentFormat.OpenXml.Spreadsheet;
 using FixedMathSharp;
@@ -11,7 +12,7 @@ namespace GC.Module.Command
 	/// <summary>
 	/// 내부적으로 사용하는 명령
 	/// </summary>
-	public class LocalCommand
+	public class LocalCommand : PoolingObject<LocalCommand>
 	{
 		public Battle.LocalCommandType CommandType { get; set; }
 		public List<int> IntParams;
@@ -53,6 +54,25 @@ namespace GC.Module.Command
 			command.LongParams.Add(attackerIdx);
 			command.LongParams.Add(targetIdx);
 			command.CommandType = Battle.LocalCommandType.Attack;
+
+			return command as LocalAttackCommand;
+		}
+	}
+	
+	public class LocalUseSkillCommand : LocalCommand
+	{
+		/// <summary>
+		/// 공격자
+		/// </summary>
+		public long Attacker => LongParams[0];
+		public int SkillID => IntParams[0];
+
+		public static LocalAttackCommand Set(in LocalCommand command, long attackerIdx, int skillID)
+		{
+			command.Reset();
+			command.LongParams.Add(attackerIdx);
+			command.IntParams.Add(skillID);
+			command.CommandType = Battle.LocalCommandType.UseSkill;
 
 			return command as LocalAttackCommand;
 		}
