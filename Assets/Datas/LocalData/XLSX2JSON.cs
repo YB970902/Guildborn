@@ -8,7 +8,8 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-class XLSX2JSON
+#if UNITY_EDITOR
+public class XLSX2JSON
 {
     [MenuItem("BeanCore/LocalData/XLSX2JSON")]
     public static void Process()
@@ -125,3 +126,4 @@ class XLSX2JSON
         }
     }
 }
+#endif

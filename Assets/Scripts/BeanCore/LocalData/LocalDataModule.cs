@@ -75,6 +75,7 @@ namespace BC.LocalData
 		}
 	}
 
+	#if UNITY_EDITOR
 	/// <summary>
 	/// 로컬데이터가 변경되면 새로 bytes파일을 만들어서 저장하는 기능을 위한 클래스
 	/// </summary>
@@ -107,4 +108,5 @@ namespace BC.LocalData
 			       path.Replace("\\", "/").StartsWith("Assets/Datas/LocalData/Json/");
 		}
 	}
+	#endif
 }

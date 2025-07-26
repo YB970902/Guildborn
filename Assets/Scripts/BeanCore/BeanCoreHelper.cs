@@ -4,6 +4,7 @@ using BC.LocalData;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
 namespace BC
 {
 	/// <summary>
@@ -24,3 +25,4 @@ namespace BC
 		}
 	}
 }
+#endif
