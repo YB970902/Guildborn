@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using BC.Utils;
@@ -21,6 +22,11 @@ namespace GC
             
             // 모듈 초기화
             Battle.Init();
+        }
+
+        private void FixedUpdate()
+        {
+            Battle.Update();
         }
     }
 }

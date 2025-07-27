@@ -41,5 +41,13 @@ namespace GC.Module
 			
 			characters[unitIdx] = new BoCharacter(unitIdx, ownerId, BeanCore.Instance.LD.Character[characterId]);
 		}
+
+		public void Update()
+		{
+			foreach (KeyValuePair<long, BoCharacter> kvp in characters)
+			{
+				kvp.Value.Update();
+			}
+		}
 	}
 }
