@@ -26,6 +26,12 @@ namespace GC.Module
         
         #endregion
 
+        public void Init()
+        {
+            TilePositionPack = FindAnyObjectByType<TilePositionPack>();
+            TilePositionPack.Init();
+        }
+        
         /// <summary>
         /// 전투와 관련된 데이터를 로드한다.
         /// </summary>

@@ -29,6 +29,7 @@ namespace BC.Utils
         private static T instance;
 
         private static bool isInit = false;
+        public static bool IsInit => isInit;
 
         protected void Awake()
         {

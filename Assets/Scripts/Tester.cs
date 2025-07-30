@@ -6,8 +6,9 @@ using UnityEngine;
 
 public class Tester : MonoBehaviour
 {
-    private void Start()
+    private IEnumerator Start()
     {
+        yield return new WaitForSeconds(1);
         GameCore.Instance.Battle.EnterBattle();
     }
 }

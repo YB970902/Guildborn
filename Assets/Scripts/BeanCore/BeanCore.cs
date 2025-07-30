@@ -20,5 +20,10 @@ namespace BC
 
             LD = new LocalDataModule();
         }
+
+        public void Init()
+        {
+            
+        }
     }
 }
