@@ -26,6 +26,7 @@ namespace GC.FSM
 		{
 			this.blackboard = blackboard;
 			this.evaluator = evaluator;
+			states = new Dictionary<string, StateBase>();
 			currStateKey = string.Empty;
 		}
 

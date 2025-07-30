@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Actor
+namespace GC.Actor
 {
     /// <summary>
     /// 시각적으로 보여지는 모든 부분을 담당하는 오브젝트
@@ -14,12 +14,8 @@ namespace Actor
         
         public void Init()
         {
-            spum.PlayAnimation(PlayerState.IDLE, 0);
-        }
-
-        private void Start()
-        {
             spum.OverrideControllerInit();
+            spum.PlayAnimation(PlayerState.IDLE, 0);
         }
     }
 }

@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using BC;
+using BC.Addressable;
 using BC.LocalData;
 using GC;
+using GC.Actor;
 using GC.FSM;
 using GC.Module;
 using UnityEngine;
@@ -22,6 +24,8 @@ namespace Bo
 		
 		private FiniteStateMachine stateMachine;
 
+		private ActorObject actor;
+
 		public BoCharacter(long unitIdx, int ownerID, LDCharacter ldCharacter)
 		{
 			UnitIdx = unitIdx;
@@ -32,6 +36,9 @@ namespace Bo
 			stateMachine = new FiniteStateMachine(new EvCharacter(blackboard), blackboard);
 			stateMachine.AddState("Move", new MoveState());
 			stateMachine.AddState("Idle", new IdleState());
+
+			var prefab = AddressableManager.Instance.LoadAssetSync<GameObject>($"Prefabs/Characters/Character{ldCharacter.ID}.prefab");
+			actor = GameObject.Instantiate(prefab).GetComponent<ActorObject>();
 		}
 
 		public void Init()
