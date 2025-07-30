@@ -11,8 +11,8 @@
       "AttackRange": 1
     },
     {
-      "ID": 1,
-      "Key": "1",
+      "ID": 2,
+      "Key": "2",
       "Attack": 10,
       "Defence": 2,
       "Health": 80,
