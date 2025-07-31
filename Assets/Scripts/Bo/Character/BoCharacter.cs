@@ -43,7 +43,8 @@ namespace Bo
 
 		public void Init()
 		{
-			stateMachine.Init();
+			stateMachine.Init("Idle");
+			actor.Init();
 		}
 		
 		public void Update()

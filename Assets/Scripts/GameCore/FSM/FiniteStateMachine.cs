@@ -30,9 +30,10 @@ namespace GC.FSM
 			currStateKey = string.Empty;
 		}
 
-		public void Init()
+		public void Init(string startStateKey)
 		{
 			evaluator.Init();
+			currStateKey = startStateKey;
 		}
 
 		/// <summary>
