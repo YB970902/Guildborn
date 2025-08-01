@@ -14,16 +14,16 @@ namespace GC.Module.Command
 	/// </summary>
 	public class LocalCommand : PoolingObject<LocalCommand>
 	{
-		public Battle.LocalCommandType CommandType { get; set; }
+		public DefineBattle.LocalCommandType CommandType { get; set; }
 		public List<int> IntParams;
-		public List<Fixed64> FloatParams;
 		public List<long> LongParams;
+		public List<Fixed64> FloatParams;
 
 		public LocalCommand()
 		{
 			IntParams = new List<int>();
-			FloatParams = new List<Fixed64>();
 			LongParams = new List<long>();
+			FloatParams = new List<Fixed64>();
 		}
 
 		/// <summary>
@@ -32,8 +32,8 @@ namespace GC.Module.Command
 		public void Reset()
 		{
 			IntParams.Clear();
-			FloatParams.Clear();
 			LongParams.Clear();
+			FloatParams.Clear();
 		}
 	}
 
@@ -53,7 +53,7 @@ namespace GC.Module.Command
 			command.Reset();
 			command.LongParams.Add(attackerIdx);
 			command.LongParams.Add(targetIdx);
-			command.CommandType = Battle.LocalCommandType.Attack;
+			command.CommandType = DefineBattle.LocalCommandType.Attack;
 
 			return command as LocalAttackCommand;
 		}
@@ -72,7 +72,7 @@ namespace GC.Module.Command
 			command.Reset();
 			command.LongParams.Add(attackerIdx);
 			command.IntParams.Add(skillID);
-			command.CommandType = Battle.LocalCommandType.UseSkill;
+			command.CommandType = DefineBattle.LocalCommandType.UseSkill;
 
 			return command as LocalAttackCommand;
 		}

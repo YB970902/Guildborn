@@ -42,6 +42,8 @@ namespace GC.Module
 			characters[unitIdx] = new BoCharacter(unitIdx, ownerId, BeanCore.Instance.LD.Character[characterId]);
 			characters[unitIdx].Init();
 		}
+		
+		
 
 		public void Update()
 		{

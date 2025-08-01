@@ -9,15 +9,11 @@ namespace GC
 {
     public class GameCore : MonoSingleton<GameCore>
     {
-        [SerializeField] GameDataModule gameDataModule;
         public BattleModule Battle { get; private set; }
-        public GameDataModule GameData => gameDataModule;
 
         protected override void OnInit()
         {
             base.OnInit();
-            
-            gameDataModule.Init();
             // 모듈 생성
             Battle = new BattleModule();
         }

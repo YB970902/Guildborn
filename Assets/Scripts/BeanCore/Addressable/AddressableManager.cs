@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using BC.Utils;
+using GC.Utils.Define;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
@@ -58,14 +59,14 @@ namespace BC.Addressable
 		/// <summary>
 		/// 애셋을 그룹 단위로 가지고 있는 딕셔너리.
 		/// </summary>
-		private Dictionary<string, List<IAssetData>> dictAssetsGroup;
+		private Dictionary<DefineAddressable.Group, List<IAssetData>> dictAssetsGroup;
 
 		protected override void OnInit()
 		{
 			base.OnInit();
 			
 			dictAsset = new Dictionary<string, IAssetData>();
-			dictAssetsGroup = new Dictionary<string, List<IAssetData>>();
+			dictAssetsGroup = new Dictionary<DefineAddressable.Group, List<IAssetData>>();
 		}
 
 		/// <summary>
@@ -75,7 +76,7 @@ namespace BC.Addressable
 		/// <param name="callback"> 애셋 로드가 완료되면 호출될 함수 </param>
 		/// <param name="groupKey"> 애셋의 그룹 </param>
 		/// <typeparam name="T"> 애셋의 타입 </typeparam>
-		public void LoadAssetAsync<T>(string path, Action<T> callback, string groupKey = "") where T : Object
+		public void LoadAssetAsync<T>(string path, Action<T> callback, DefineAddressable.Group groupKey = DefineAddressable.Group.None) where T : Object
 		{
 			// 이미 애셋을 로드한 적이 있는 경우
 			if (dictAsset.TryGetValue(path, out IAssetData assetInterfaceData))
@@ -105,7 +106,7 @@ namespace BC.Addressable
 		/// <param name="path"> 애셋의 경로 </param>
 		/// <param name="groupKey"> 애셋의 그룹</param>
 		/// <typeparam name="T"> 애셋의 타입</typeparam>
-		public T LoadAssetSync<T>(string path, string groupKey = "") where T : Object
+		public T LoadAssetSync<T>(string path, DefineAddressable.Group groupKey = DefineAddressable.Group.None) where T : Object
 		{
 			// 애셋 데이터가 있다면 즉시 반환한다. 만약 아직 로드가 끝나지 않았다면, 기다렸다가 반환한다.
 			if (dictAsset.TryGetValue(path, out IAssetData assetInterfaceData))
@@ -134,7 +135,7 @@ namespace BC.Addressable
 		/// 애셋을 그룹단위로 언로드한다.
 		/// </summary>
 		/// <param name="groupKey"> 그룹의 키 </param>
-		public void UnloadAsset(string groupKey)
+		public void UnloadAsset(DefineAddressable.Group groupKey)
 		{
 			if (dictAssetsGroup.TryGetValue(groupKey, out List<IAssetData> list))
 			{

@@ -39,7 +39,7 @@ namespace GC.Module
 		public PathFindHandler()
 		{
 			path = new List<Vector2Int>();
-			pathFinder = GameCore.Instance.Battle.PathFind.PathFinder;
+			pathFinder = GameCore.Instance.Battle.Map.PathFinder;
 		}
 
 		public void Set(long unitIdx)

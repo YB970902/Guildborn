@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using BC;
 using FixedMathSharp;
 using UnityEngine;
 
@@ -7,9 +8,8 @@ namespace GC.Module
 {
     public class BattleModule
     {
-        public PathFindModule PathFind { get; private set; }
+        public MapModule Map { get; private set; }
         public CharacterModule Character { get; private set; }
-        
         public CommandProcessor Command { get; private set; }
 
         public bool IsBattleStart { get; private set; }
@@ -24,32 +24,30 @@ namespace GC.Module
 
         public BattleModule()
         {
-            PathFind = new PathFindModule();
+            Map = new MapModule();
             Character = new CharacterModule();
             Command = new CommandProcessor();
         }
 
         public void Init()
         {
-            PathFind.Init();
+            Map.Init();
             Character.Init();
+            Command.Init();
 
             // 고정 업데이트 주기를 조절한다. 
             Time.fixedDeltaTime = TickFrame;
         }
 
         /// <summary>
-        /// 배툴을 시작한다.
+        /// 전투를 시작한다.
         /// </summary>
         public void EnterBattle()
         {
-            // 배틀에 필요한 데이터 로드
-            GameCore.Instance.GameData.LoadBattleData();
-
             // 전투에 필요한 모든 리소스를 로드한다.
             GameCore.Instance.StartCoroutine(LoadBattleResources());
             
-            Character.AddCharacter(0, 0, 1);
+            Map.LoadMap(BeanCore.Instance.LD.Map[1]);
         }
 
         /// <summary>
@@ -67,8 +65,7 @@ namespace GC.Module
         /// </summary>
         public void ExitBattle()
         {
-            // 배틀에 필요한 데이터 정리
-            GameCore.Instance.GameData.UnloadBattleData();
+            Map.UnloadMap();
             
             // 전투에 필요한 모든 리소스를 제거한다.
             GameCore.Instance.StartCoroutine(LoadBattleResources());
@@ -84,6 +81,8 @@ namespace GC.Module
         {
             if (IsBattleStart)
             {
+                Command.ProcessLocalCommand();
+                Command.ProcessRemoteCommand();
                 Character.Update();
             }
         }

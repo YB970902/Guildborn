@@ -109,28 +109,43 @@ namespace GC.Module
 		/// <summary> 길찾기 연산에 필요한 인접 리스트 </summary>
 		private List<TileInfo> nearList;
 		
+		public int TileXCount { get; private set; }
+		public int TileYCount { get; private set; }
+		
 		public PathFinder()
 		{
-			tileInfoList = new TileInfo[Battle.TileXCount, Battle.TileYCount];
-			openList = new FastPriorityQueue<TileInfo>(Battle.TileXCount * Battle.TileYCount);
-			closeList = new List<TileInfo>(Battle.TileXCount * Battle.TileYCount);
+			closeList = new List<TileInfo>();
 			nearList = new List<TileInfo>(6);
 		}
 
-		/// <summary>
-		/// 타일 정보 초기화
-		/// </summary>
-		public void Init()
+		// 맵 데이터를 로드한다.
+		public void LoadMap(TileMapData tileMapData)
 		{
-			List<Transform> trTilePositionList = GameCore.Instance.GameData.TilePositionPack.TilePositionList;
+			tileInfoList = new TileInfo[tileMapData.Width, tileMapData.Height];
+			openList = new FastPriorityQueue<TileInfo>(tileMapData.Width * tileMapData.Height);
+			
+			TileXCount = tileMapData.Width;
+			TileYCount = tileMapData.Height;
+			
 			int tileIndex = 0;
-			for (int x = 0; x < Battle.TileXCount; ++x)
+			for (int x = 0; x < tileMapData.Width; ++x)
 			{
-				for (int y = 0; y < Battle.TileYCount; ++y)
+				for (int y = 0; y < tileMapData.Height; ++y)
 				{
-					tileInfoList[x, y] = new TileInfo(x, y, trTilePositionList[tileIndex++].position);
+					tileInfoList[x, y] = new TileInfo(x, y, tileMapData.TilePositionList[tileIndex++].position);
 				}
 			}
+		}
+
+		/// <summary>
+		/// 맵 데이터를 지운다.
+		/// </summary>
+		public void UnloadMap()
+		{
+			tileInfoList = null;
+			openList = null;
+			closeList.Clear();
+			nearList.Clear();
 		}
 		
 		#region PathFinding
@@ -150,9 +165,9 @@ namespace GC.Module
 			closeList.Clear();
 			
 			// 길찾기 관련 데이터를 리셋한다.
-			for (int x = 0; x < Battle.TileXCount; ++x)
+			for (int x = 0; x < TileXCount; ++x)
 			{
-				for (int y = 0; y < Battle.TileYCount; ++y)
+				for (int y = 0; y < TileYCount; ++y)
 				{
 					tileInfoList[x, y].ResetPathFindingInfo();
 				}
@@ -265,8 +280,8 @@ namespace GC.Module
 			void AddToNearList(in Vector2Int index)
 			{
 				// 범위를 벗어났다면 넣지 않는다.
-				if (index.x < 0 || index.x >= Battle.TileXCount ||
-				    index.y < 0 || index.y >= Battle.TileYCount)
+				if (index.x < 0 || index.x >= TileXCount ||
+				    index.y < 0 || index.y >= TileYCount)
 				{
 					return;
 				}

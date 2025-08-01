@@ -31,7 +31,7 @@ namespace Bo
 			UnitIdx = unitIdx;
 			OwnerID = ownerID;
 			LDStatus ldStatus = BeanCore.Instance.LD.Status[ldCharacter.StatusID];
-			pathFindHandler = GameCore.Instance.Battle.PathFind.GetHandler();
+			pathFindHandler = GameCore.Instance.Battle.Map.GetHandler();
 			blackboard = new BbCharacter(ldStatus, pathFindHandler);
 			stateMachine = new FiniteStateMachine(new EvCharacter(blackboard), blackboard);
 			stateMachine.AddState("Move", new MoveState());

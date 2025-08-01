@@ -18,13 +18,8 @@ namespace GC.Utils.Define
 	/// <summary>
 	/// 전투와 관련된 데이터를 관리하는 클래스
 	/// </summary>
-	public static class Battle
+	public static class DefineBattle
 	{
-		/// <summary> 타일 X축 개수 </summary>
-		public const int TileXCount = 5;
-		/// <summary> 타일 Y축 개수 </summary>
-		public const int TileYCount = 5;
-		
 		public enum LocalCommandType
 		{
 			Attack,		// 일반 공격
@@ -33,7 +28,18 @@ namespace GC.Utils.Define
 
 		public enum RemoteCommandType
 		{
-			
+			SpawnCharacter,			// 캐릭터 소환
+			CharacterMoveToField,	// 캐릭터를 필드로 이동
+			CharacterMoveToWait,	// 캐릭터를 대기석으로 이동
+		}
+	}
+
+	public static class DefineAddressable
+	{
+		public enum Group
+		{
+			None,
+			Battle, // 전투에 사용되는 그룹
 		}
 	}
 }
