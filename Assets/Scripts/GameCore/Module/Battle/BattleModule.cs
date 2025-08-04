@@ -36,7 +36,7 @@ namespace GC.Module
             Command.Init();
 
             // 고정 업데이트 주기를 조절한다. 
-            Time.fixedDeltaTime = TickFrame;
+            Time.fixedDeltaTime = 1f / TickFrame;
         }
 
         /// <summary>

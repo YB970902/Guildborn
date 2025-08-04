@@ -13,18 +13,18 @@ namespace GC.Module
 	public class CommandProcessor
 	{
 		private ObjectPool<LocalCommand> localCommandPool;
-		private ObjectPool<RemoteCommand> remoteCommandPool;
+		private RemoteClassPool remoteCommandPool;
 		
 		private List<LocalCommand> localCommandList;
 		// TODO : 이 명령을 실행할 타이밍도 정보에 포함되어야 한다.
-		private List<RemoteCommand> remoteCommandList;
+		private List<IRemoteCommand> remoteCommandList;
 		
 		public CommandProcessor()
 		{
 			localCommandPool = new ObjectPool<LocalCommand>();
-			remoteCommandPool = new ObjectPool<RemoteCommand>();
+			remoteCommandPool = new RemoteClassPool();
 			localCommandList = new List<LocalCommand>();
-			remoteCommandList = new List<RemoteCommand>();
+			remoteCommandList = new List<IRemoteCommand>();
 		}
 
 		public void Init()
@@ -55,6 +55,9 @@ namespace GC.Module
 
 		public void ProcessRemoteCommand()
 		{
+			// 명령이 없다면 넘어간다.
+			if (remoteCommandList.IsNullOrEmpty()) return;
+			
 			for (int i = 0, count = remoteCommandList.Count; i < count; ++i)
 			{
 				switch (remoteCommandList[i].CommandType)
@@ -64,6 +67,8 @@ namespace GC.Module
 						break;
 				}
 			}
+			
+			remoteCommandList.Clear();
 		}
 
 		#region AddCommand
@@ -82,8 +87,9 @@ namespace GC.Module
 		/// <param name="characterId"> 캐릭터 아이디 </param>
 		public void SpawnCharacter(long unitIdx, int ownerId, int characterId)
 		{
-			RemoteSpawnCharacterCommand command = RemoteSpawnCharacterCommand.Set(remoteCommandPool.Pop(), unitIdx, ownerId, characterId);
-			remoteCommandPool.Push(command);
+			var command = remoteCommandPool.SpawnCharacterPool.Pop();
+			command.Set(unitIdx, ownerId, characterId);
+			remoteCommandList.Add(command);
 		}
 		
 		#endregion

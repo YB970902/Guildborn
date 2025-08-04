@@ -8,57 +8,52 @@ using UnityEngine;
 namespace GC.Module.Command
 {
 	/// <summary>
-	/// 서버로부터 전달받거나, 서버로 보내야하는 명령
+	/// 서버로부터 전달받거나, 서버로 보내야하는 명령의 인터페이스
 	/// </summary>
-	public class RemoteCommand : PoolingObject<RemoteCommand>
+	public interface IRemoteCommand
 	{
-		public DefineBattle.RemoteCommandType CommandType { get; set; }
-		public List<int> IntParams;
-		public List<long> LongParams;
-		public List<Fixed64> FloatParams;
+		public DefineBattle.RemoteCommandType CommandType { get; }
+	}
 
-		public RemoteCommand()
+	public class RemoteClassPool
+	{
+		public ObjectPool<RemoteSpawnCharacterCommand> SpawnCharacterPool { get; private set; }
+
+		public RemoteClassPool()
 		{
-			IntParams = new List<int>();
-			LongParams = new List<long>();
-			FloatParams = new List<Fixed64>();
+			SpawnCharacterPool = new ObjectPool<RemoteSpawnCharacterCommand>();
 		}
-		
-		/// <summary>
-		/// 보유중인 데이터를 비운다.
-		/// </summary>
-		public void Reset()
+
+		public void Init()
 		{
-			IntParams.Clear();
-			LongParams.Clear();
-			FloatParams.Clear();
+			SpawnCharacterPool.Init();
 		}
 	}
 
-	public class RemoteSpawnCharacterCommand : RemoteCommand
+	public class RemoteSpawnCharacterCommand : PoolingObject<RemoteSpawnCharacterCommand>, IRemoteCommand
 	{
+		public DefineBattle.RemoteCommandType CommandType => DefineBattle.RemoteCommandType.SpawnCharacter;
+		
 		/// <summary>
 		/// 캐릭터의 고유 인덱스
 		/// </summary>
-		public long UnitIdx => LongParams[0];
+		public long UnitIdx { get; private set; }
+
 		/// <summary>
 		/// 이 캐릭터를 소유하는 플레이어의 아이디
 		/// </summary>
-		public int OwnerID => IntParams[0];
+		public int OwnerID { get; private set; }
+
 		/// <summary>
 		/// 캐릭터의 아이디
 		/// </summary>
-		public int CharacterID => IntParams[1];
-
-		public static RemoteSpawnCharacterCommand Set(in RemoteCommand command, long unitIdx, int ownerId, int characterId)
+		public int CharacterID { get; private set; }
+		
+		public void Set(long unitIdx, int ownerId, int characterId)
 		{
-			command.Reset();
-			command.LongParams.Add(unitIdx);
-			command.IntParams.Add(ownerId);
-			command.IntParams.Add(characterId);
-			command.CommandType = DefineBattle.RemoteCommandType.SpawnCharacter;
-
-			return command as RemoteSpawnCharacterCommand;
+			UnitIdx = unitIdx;
+			OwnerID = ownerId;
+			CharacterID = characterId;
 		}
 	}
 }
