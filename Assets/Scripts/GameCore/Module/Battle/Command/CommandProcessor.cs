@@ -13,18 +13,18 @@ namespace GC.Module
 	public class CommandProcessor
 	{
 		private ObjectPool<LocalCommand> localCommandPool;
-		private RemoteClassPool remoteCommandPool;
+		private ObjectPool<RemoteCommand> remoteCommandPool;
 		
 		private List<LocalCommand> localCommandList;
 		// TODO : 이 명령을 실행할 타이밍도 정보에 포함되어야 한다.
-		private List<IRemoteCommand> remoteCommandList;
+		private List<RemoteCommand> remoteCommandList;
 		
 		public CommandProcessor()
 		{
 			localCommandPool = new ObjectPool<LocalCommand>();
-			remoteCommandPool = new RemoteClassPool();
+			remoteCommandPool = new ObjectPool<RemoteCommand>();
 			localCommandList = new List<LocalCommand>();
-			remoteCommandList = new List<IRemoteCommand>();
+			remoteCommandList = new List<RemoteCommand>();
 		}
 
 		public void Init()
@@ -60,13 +60,14 @@ namespace GC.Module
 			
 			for (int i = 0, count = remoteCommandList.Count; i < count; ++i)
 			{
+				var remoteCommand = remoteCommandList[i];
 				switch (remoteCommandList[i].CommandType)
 				{
 					case DefineBattle.RemoteCommandType.SpawnCharacterAtField:
-						ProcessRemoteSpawnCharacterAtField(remoteCommandList[i] as RemoteSpawnCharacterAtFieldCommand);
+						ProcessRemoteSpawnCharacterAtField(remoteCommand);
 						break;
 					case DefineBattle.RemoteCommandType.SpawnCharacterAtWait:
-						ProcessRemoteSpawnCharacterAtWait(remoteCommandList[i] as RemoteSpawnCharacterAtWaitCommand);
+						ProcessRemoteSpawnCharacterAtWait(remoteCommand);
 						break;
 				}
 			}
@@ -91,8 +92,8 @@ namespace GC.Module
 		/// <param name="fieldId"> 필드 아이디 </param>
 		public void SpawnCharacterAtField(long unitIdx, int ownerId, int characterId, int fieldId)
 		{
-			var command = remoteCommandPool.SpawnCharacterAtFieldPool.Pop();
-			command.Set(unitIdx, ownerId, characterId, fieldId);
+			var command = remoteCommandPool.Pop();
+			RemoteSpawnCharacterAtFieldCommand.Set(ref command, unitIdx, ownerId, characterId, fieldId);
 			remoteCommandList.Add(command);
 		}
 		
@@ -105,8 +106,8 @@ namespace GC.Module
 		/// <param name="waitId"> 대기석 아이디 </param>
 		public void SpawnCharacterAtWait(long unitIdx, int ownerId, int characterId, int waitId)
 		{
-			var command = remoteCommandPool.SpawnCharacterAtFieldPool.Pop();
-			command.Set(unitIdx, ownerId, characterId, waitId);
+			var command = remoteCommandPool.Pop();
+			RemoteSpawnCharacterAtWaitCommand.Set(ref command, unitIdx, ownerId, characterId, waitId);
 			remoteCommandList.Add(command);
 		}
 		
@@ -128,14 +129,22 @@ namespace GC.Module
 		
 		#region ProcessRemoteCommand
 		
-		private void ProcessRemoteSpawnCharacterAtField(RemoteSpawnCharacterAtFieldCommand command)
+		private void ProcessRemoteSpawnCharacterAtField(RemoteCommand command)
 		{
-			GameCore.Instance.Battle.Character.SpawnCharacterAtField(command.UnitIdx, command.OwnerID, command.CharacterID, command.FieldID);
+			long unitIdx = RemoteSpawnCharacterAtFieldCommand.UnitIdx(command);
+			int ownerId = RemoteSpawnCharacterAtFieldCommand.OwnerID(command);
+			int characterId = RemoteSpawnCharacterAtFieldCommand.CharacterID(command);
+			int fieldId = RemoteSpawnCharacterAtFieldCommand.FieldID(command);
+			GameCore.Instance.Battle.Character.SpawnCharacterAtField(unitIdx, ownerId, characterId, fieldId);
 		}
 		
-		private void ProcessRemoteSpawnCharacterAtWait(RemoteSpawnCharacterAtWaitCommand command)
+		private void ProcessRemoteSpawnCharacterAtWait(RemoteCommand command)
 		{
-			GameCore.Instance.Battle.Character.SpawnCharacterAtField(command.UnitIdx, command.OwnerID, command.CharacterID, command.WaitID);
+			long unitIdx = RemoteSpawnCharacterAtWaitCommand.UnitIdx(command);
+			int ownerId = RemoteSpawnCharacterAtWaitCommand.OwnerID(command);
+			int characterId = RemoteSpawnCharacterAtWaitCommand.CharacterID(command);
+			int waitId = RemoteSpawnCharacterAtWaitCommand.WaitID(command);
+			GameCore.Instance.Battle.Character.SpawnCharacterAtWait(unitIdx, ownerId, characterId, waitId);
 		}
 		
 		#endregion

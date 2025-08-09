@@ -8,82 +8,72 @@ using UnityEngine;
 namespace GC.Module.Command
 {
 	/// <summary>
-	/// 서버로부터 전달받거나, 서버로 보내야하는 명령의 인터페이스
+	/// 내부적으로 사용하는 명령
 	/// </summary>
-	public interface IRemoteCommand
+	public class RemoteCommand : PoolingObject<RemoteCommand>
 	{
-		public DefineBattle.RemoteCommandType CommandType { get; }
-	}
+		public DefineBattle.RemoteCommandType CommandType { get; set; }
+		public List<int> IntParams;
+		public List<long> LongParams;
+		public List<Fixed64> FloatParams;
 
-	public class RemoteClassPool
-	{
-		public ObjectPool<RemoteSpawnCharacterAtFieldCommand> SpawnCharacterAtFieldPool { get; private set; }
-		public ObjectPool<RemoteSpawnCharacterAtWaitCommand> SpawnCharacterAtWaitPool { get; private set; }
-
-		public RemoteClassPool()
+		public RemoteCommand()
 		{
-			SpawnCharacterAtFieldPool = new ObjectPool<RemoteSpawnCharacterAtFieldCommand>();
+			IntParams = new List<int>();
+			LongParams = new List<long>();
+			FloatParams = new List<Fixed64>();
 		}
 
-		public void Init()
+		/// <summary>
+		/// 보유중인 데이터를 비운다.
+		/// </summary>
+		public void Reset()
 		{
-			SpawnCharacterAtFieldPool.Init();
+			IntParams.Clear();
+			LongParams.Clear();
+			FloatParams.Clear();
 		}
 	}
-
+	
 	/// <summary>
 	/// 캐릭터를 필드에 소환한다.
 	/// </summary>
-	public class RemoteSpawnCharacterAtFieldCommand : PoolingObject<RemoteSpawnCharacterAtFieldCommand>, IRemoteCommand
+	public static class RemoteSpawnCharacterAtFieldCommand
 	{
-		public DefineBattle.RemoteCommandType CommandType => DefineBattle.RemoteCommandType.SpawnCharacterAtField;
-		
-		/// <summary> 캐릭터의 고유 인덱스 </summary>
-		public long UnitIdx { get; private set; }
-
-		/// <summary> 이 캐릭터를 소유하는 플레이어의 아이디 </summary>
-		public int OwnerID { get; private set; }
-
-		/// <summary> 캐릭터의 아이디 </summary>
-		public int CharacterID { get; private set; }
-		
-		/// <summary> 필드의 아이디 </summary>
-		public int FieldID { get; private set; }
-		
-		public void Set(long unitIdx, int ownerId, int characterId, int fieldId)
+		public static void Set(ref RemoteCommand command, long unitIdx, int ownerId, int characterId, int fieldId)
 		{
-			UnitIdx = unitIdx;
-			OwnerID = ownerId;
-			CharacterID = characterId;
-			FieldID = fieldId;
+			command.Reset();
+			command.CommandType = DefineBattle.RemoteCommandType.SpawnCharacterAtField;
+			command.LongParams.Add(unitIdx);
+			command.IntParams.Add(ownerId);
+			command.IntParams.Add(characterId);
+			command.IntParams.Add(fieldId);
 		}
+		
+		public static long UnitIdx(in RemoteCommand remoteCommand) => remoteCommand.LongParams[0];
+		public static int OwnerID(in RemoteCommand remoteCommand) => remoteCommand.IntParams[0];
+		public static int CharacterID(in RemoteCommand remoteCommand) => remoteCommand.IntParams[1];
+		public static int FieldID(in RemoteCommand remoteCommand) => remoteCommand.IntParams[2];
 	}
 	
 	/// <summary>
 	/// 캐릭터를 대기석에 소환한다.
 	/// </summary>
-	public class RemoteSpawnCharacterAtWaitCommand : PoolingObject<RemoteSpawnCharacterAtWaitCommand>, IRemoteCommand
+	public static class RemoteSpawnCharacterAtWaitCommand
 	{
-		public DefineBattle.RemoteCommandType CommandType => DefineBattle.RemoteCommandType.SpawnCharacterAtField;
-		
-		/// <summary> 캐릭터의 고유 인덱스 </summary>
-		public long UnitIdx { get; private set; }
-
-		/// <summary> 이 캐릭터를 소유하는 플레이어의 아이디 </summary>
-		public int OwnerID { get; private set; }
-
-		/// <summary> 캐릭터의 아이디 </summary>
-		public int CharacterID { get; private set; }
-		
-		/// <summary> 대기석의 아이디 </summary>
-		public int WaitID { get; private set; }
-		
-		public void Set(long unitIdx, int ownerId, int characterId, int waitId)
+		public static void Set(ref RemoteCommand command, long unitIdx, int ownerId, int characterId, int waitId)
 		{
-			UnitIdx = unitIdx;
-			OwnerID = ownerId;
-			CharacterID = characterId;
-			WaitID = waitId;
+			command.Reset();
+			command.CommandType = DefineBattle.RemoteCommandType.SpawnCharacterAtWait;
+			command.LongParams.Add(unitIdx);
+			command.IntParams.Add(ownerId);
+			command.IntParams.Add(characterId);
+			command.IntParams.Add(waitId);
 		}
+		
+		public static long UnitIdx(in RemoteCommand remoteCommand) => remoteCommand.LongParams[0];
+		public static int OwnerID(in RemoteCommand remoteCommand) => remoteCommand.IntParams[0];
+		public static int CharacterID(in RemoteCommand remoteCommand) => remoteCommand.IntParams[1];
+		public static int WaitID(in RemoteCommand remoteCommand) => remoteCommand.IntParams[2];
 	}
 }
