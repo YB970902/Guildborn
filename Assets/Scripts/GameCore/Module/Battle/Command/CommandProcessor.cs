@@ -93,7 +93,7 @@ namespace GC.Module
 		public void SpawnCharacterAtField(long unitIdx, int ownerId, int characterId, int fieldId)
 		{
 			var command = remoteCommandPool.Pop();
-			RemoteSpawnCharacterAtFieldCommand.Set(ref command, unitIdx, ownerId, characterId, fieldId);
+			RemoteSpawnCharacterAtFieldCommand.Set(command, unitIdx, ownerId, characterId, fieldId);
 			remoteCommandList.Add(command);
 		}
 		
@@ -107,7 +107,7 @@ namespace GC.Module
 		public void SpawnCharacterAtWait(long unitIdx, int ownerId, int characterId, int waitId)
 		{
 			var command = remoteCommandPool.Pop();
-			RemoteSpawnCharacterAtWaitCommand.Set(ref command, unitIdx, ownerId, characterId, waitId);
+			RemoteSpawnCharacterAtWaitCommand.Set(command, unitIdx, ownerId, characterId, waitId);
 			remoteCommandList.Add(command);
 		}
 		
