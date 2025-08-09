@@ -121,16 +121,16 @@ namespace GC.Module
 		// 맵 데이터를 로드한다.
 		public void LoadMap(TileMapData tileMapData)
 		{
-			tileInfoList = new TileInfo[tileMapData.Width, tileMapData.Height];
-			openList = new FastPriorityQueue<TileInfo>(tileMapData.Width * tileMapData.Height);
+			tileInfoList = new TileInfo[tileMapData.FieldTileWidthCount, tileMapData.FieldTileHeightCount];
+			openList = new FastPriorityQueue<TileInfo>(tileMapData.FieldTileWidthCount * tileMapData.FieldTileHeightCount);
 			
-			TileXCount = tileMapData.Width;
-			TileYCount = tileMapData.Height;
+			TileXCount = tileMapData.FieldTileWidthCount;
+			TileYCount = tileMapData.FieldTileHeightCount;
 			
 			int tileIndex = 0;
-			for (int x = 0; x < tileMapData.Width; ++x)
+			for (int x = 0; x < tileMapData.FieldTileWidthCount; ++x)
 			{
-				for (int y = 0; y < tileMapData.Height; ++y)
+				for (int y = 0; y < tileMapData.FieldTileHeightCount; ++y)
 				{
 					tileInfoList[x, y] = new TileInfo(x, y, tileMapData.TilePositionList[tileIndex++].position);
 				}

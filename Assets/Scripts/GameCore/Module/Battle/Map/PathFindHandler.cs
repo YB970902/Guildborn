@@ -48,6 +48,22 @@ namespace GC.Module
 		}
 
 		/// <summary>
+		/// 필드 타일로 이동한다.
+		/// </summary>
+		public void SetFieldTile()
+		{
+			path.Clear();
+		}
+
+		/// <summary>
+		/// 대기석 타일로 이동한다.
+		/// </summary>
+		public void SetWaitTile()
+		{
+			path.Clear();
+		}
+
+		/// <summary>
 		/// 이동을 수행한다.
 		/// </summary>
 		public void Move(Fixed64 moveSpeed)

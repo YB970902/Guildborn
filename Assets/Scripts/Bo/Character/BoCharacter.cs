@@ -52,5 +52,21 @@ namespace Bo
 			// TODO : 버프 처리하기
 			stateMachine.Execute();
 		}
+
+		/// <summary>
+		/// 필드 타일로 이동한다.
+		/// </summary>
+		public void SetFieldTile(int fieldId)
+		{
+			pathFindHandler.SetFieldTile();
+		}
+
+		/// <summary>
+		/// 대기석 타일로 이동한다.
+		/// </summary>
+		public void SetWaitTile(int waitId)
+		{
+			pathFindHandler.SetWaitTile();
+		}
 	}
 }

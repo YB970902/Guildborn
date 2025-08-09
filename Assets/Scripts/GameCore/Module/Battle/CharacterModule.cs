@@ -31,7 +31,30 @@ namespace GC.Module
 			characters.Clear();		
 		}
 
-		public void AddCharacter(long unitIdx, int ownerId, int characterId)
+		/// <summary>
+		/// 캐릭터를 필드에 소환한다.
+		/// </summary>
+		public void SpawnCharacterAtField(long unitIdx, int ownerId, int characterId, int fieldId)
+		{
+			SpawnCharacter(unitIdx, ownerId, characterId);
+			var character = characters[unitIdx];
+			character.SetFieldTile(fieldId);
+		}
+		
+		/// <summary>
+		/// 캐릭터를 대기석에 소환한다.
+		/// </summary>
+		public void SpawnCharacterAtWait(long unitIdx, int ownerId, int characterId, int waitId)
+		{
+			SpawnCharacter(unitIdx, ownerId, characterId);
+			var character = characters[unitIdx];
+			character.SetWaitTile(waitId);
+		}
+
+		/// <summary>
+		/// 캐릭터를 생성한다.
+		/// </summary>
+		private void SpawnCharacter(long unitIdx, int ownerId, int characterId)
 		{
 			if (characters.ContainsKey(unitIdx))
 			{
@@ -42,8 +65,6 @@ namespace GC.Module
 			characters[unitIdx] = new BoCharacter(unitIdx, ownerId, BeanCore.Instance.LD.Character[characterId]);
 			characters[unitIdx].Init();
 		}
-		
-		
 
 		public void Update()
 		{

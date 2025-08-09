@@ -28,7 +28,8 @@ namespace GC.Utils.Define
 
 		public enum RemoteCommandType
 		{
-			SpawnCharacter,			// 캐릭터 소환
+			SpawnCharacterAtWait,	// 대기석에 캐릭터 소환
+			SpawnCharacterAtField,	// 필드에 캐릭터 소환
 			CharacterMoveToField,	// 캐릭터를 필드로 이동
 			CharacterMoveToWait,	// 캐릭터를 대기석으로 이동
 		}

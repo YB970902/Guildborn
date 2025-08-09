@@ -62,8 +62,11 @@ namespace GC.Module
 			{
 				switch (remoteCommandList[i].CommandType)
 				{
-					case DefineBattle.RemoteCommandType.SpawnCharacter:
-						ProcessRemoteSpawnCharacter(remoteCommandList[i] as RemoteSpawnCharacterCommand);
+					case DefineBattle.RemoteCommandType.SpawnCharacterAtField:
+						ProcessRemoteSpawnCharacterAtField(remoteCommandList[i] as RemoteSpawnCharacterAtFieldCommand);
+						break;
+					case DefineBattle.RemoteCommandType.SpawnCharacterAtWait:
+						ProcessRemoteSpawnCharacterAtWait(remoteCommandList[i] as RemoteSpawnCharacterAtWaitCommand);
 						break;
 				}
 			}
@@ -80,15 +83,30 @@ namespace GC.Module
 		}
 
 		/// <summary>
-		/// 캐릭터를 소환한다
+		/// 캐릭터를 필드에 소환한다
 		/// </summary>
 		/// <param name="unitIdx"> 소환할 캐릭터의 고유 아이디 </param>
 		/// <param name="ownerId"> 캐릭터를 소유하는 소유자 아이디</param>
 		/// <param name="characterId"> 캐릭터 아이디 </param>
-		public void SpawnCharacter(long unitIdx, int ownerId, int characterId)
+		/// <param name="fieldId"> 필드 아이디 </param>
+		public void SpawnCharacterAtField(long unitIdx, int ownerId, int characterId, int fieldId)
 		{
-			var command = remoteCommandPool.SpawnCharacterPool.Pop();
-			command.Set(unitIdx, ownerId, characterId);
+			var command = remoteCommandPool.SpawnCharacterAtFieldPool.Pop();
+			command.Set(unitIdx, ownerId, characterId, fieldId);
+			remoteCommandList.Add(command);
+		}
+		
+		/// <summary>
+		/// 캐릭터를 필드에 소환한다
+		/// </summary>
+		/// <param name="unitIdx"> 소환할 캐릭터의 고유 아이디 </param>
+		/// <param name="ownerId"> 캐릭터를 소유하는 소유자 아이디</param>
+		/// <param name="characterId"> 캐릭터 아이디 </param>
+		/// <param name="waitId"> 대기석 아이디 </param>
+		public void SpawnCharacterAtWait(long unitIdx, int ownerId, int characterId, int waitId)
+		{
+			var command = remoteCommandPool.SpawnCharacterAtFieldPool.Pop();
+			command.Set(unitIdx, ownerId, characterId, waitId);
 			remoteCommandList.Add(command);
 		}
 		
@@ -110,9 +128,14 @@ namespace GC.Module
 		
 		#region ProcessRemoteCommand
 		
-		private void ProcessRemoteSpawnCharacter(RemoteSpawnCharacterCommand command)
+		private void ProcessRemoteSpawnCharacterAtField(RemoteSpawnCharacterAtFieldCommand command)
 		{
-			GameCore.Instance.Battle.Character.AddCharacter(command.UnitIdx, command.OwnerID, command.CharacterID);
+			GameCore.Instance.Battle.Character.SpawnCharacterAtField(command.UnitIdx, command.OwnerID, command.CharacterID, command.FieldID);
+		}
+		
+		private void ProcessRemoteSpawnCharacterAtWait(RemoteSpawnCharacterAtWaitCommand command)
+		{
+			GameCore.Instance.Battle.Character.SpawnCharacterAtField(command.UnitIdx, command.OwnerID, command.CharacterID, command.WaitID);
 		}
 		
 		#endregion

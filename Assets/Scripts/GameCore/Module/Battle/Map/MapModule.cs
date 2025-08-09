@@ -38,6 +38,7 @@ namespace GC.Module
 			this.ldMap = ldMap;
 			var prefabMap = AddressableManager.Instance.LoadAssetSync<GameObject>($"Prefabs/Battle/MapDatas/{ldMap.Name}.prefab", DefineAddressable.Group.Battle);
 			tileMapData = GameObject.Instantiate(prefabMap).GetComponent<TileMapData>();
+			tileMapData.Init();
 		}
 
 		public void UnloadMap()
