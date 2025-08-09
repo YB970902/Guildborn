@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using GC;
 using MemoryPack;
 using Newtonsoft.Json;
 using UnityEditor;
@@ -71,7 +72,7 @@ namespace BC.LocalData
 
 			byte[] bytes = MemoryPackSerializer.Serialize(dataList);
 			File.WriteAllBytes(bytesPath, bytes);
-			Debug.Log($"SaveData : {typeof(T).Name}");
+			ELog.Log($"SaveData : {typeof(T).Name}");
 		}
 	}
 
@@ -92,7 +93,7 @@ namespace BC.LocalData
 				{
 					// 로컬데이터가 하나라도 새로 추가되거나 변경되었다면, bytes파일을 새로 만든다.
 					LocalDataModule.SaveAllData();
-					Debug.Log($"LocalData Reimported!");
+					ELog.Log("LocalData Reimported!");
 					break;
 				}
 			}
