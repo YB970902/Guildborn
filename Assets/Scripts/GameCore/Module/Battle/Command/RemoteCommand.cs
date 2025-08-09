@@ -29,6 +29,7 @@ namespace GC.Module.Command
 		/// </summary>
 		public void Reset()
 		{
+			CommandType = DefineBattle.RemoteCommandType.None;
 			IntParams.Clear();
 			LongParams.Clear();
 			FixedParams.Clear();
