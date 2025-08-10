@@ -17,5 +17,10 @@ namespace GC.Actor
             spum.OverrideControllerInit();
             spum.PlayAnimation(PlayerState.IDLE, 0);
         }
+        
+        public void SetPosition(Vector2 position)
+        {
+            transform.position = position;
+        }
     }
 }

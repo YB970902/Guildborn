@@ -81,9 +81,6 @@ namespace GC.Module
 			/// </summary>
 			public void SetReserve(long unitIdx)
 			{
-#if UNITY_EDITOR
-				if(Debugging.DebugPathFinder) Debug.Log($"SetReserve {ReservedUnitIdx} > {unitIdx}");
-#endif
 				ReservedUnitIdx = unitIdx;
 			}
 
@@ -93,9 +90,6 @@ namespace GC.Module
 			/// </summary>
 			public void SetOccupy(long unitIdx)
 			{
-#if UNITY_EDITOR
-				if(Debugging.DebugPathFinder) Debug.Log($"SetOccupy {OccupiedUnitIdx} > {unitIdx}");
-#endif
 				OccupiedUnitIdx = unitIdx;
 			}
 		}
@@ -108,9 +102,12 @@ namespace GC.Module
 		private List<TileInfo> closeList;
 		/// <summary> 길찾기 연산에 필요한 인접 리스트 </summary>
 		private List<TileInfo> nearList;
-		
-		public int TileXCount { get; private set; }
-		public int TileYCount { get; private set; }
+
+		/// <summary> 타일맵 데이터 </summary>
+		private TileMapData tileMapData;
+
+		public int TileXCount => tileMapData.FieldTileWidthCount;
+		public int TileYCount => tileMapData.FieldTileHeightCount;
 		
 		public PathFinder()
 		{
@@ -121,11 +118,9 @@ namespace GC.Module
 		// 맵 데이터를 로드한다.
 		public void LoadMap(TileMapData tileMapData)
 		{
+			this.tileMapData = tileMapData;
 			tileInfoList = new TileInfo[tileMapData.FieldTileWidthCount, tileMapData.FieldTileHeightCount];
 			openList = new FastPriorityQueue<TileInfo>(tileMapData.FieldTileWidthCount * tileMapData.FieldTileHeightCount);
-			
-			TileXCount = tileMapData.FieldTileWidthCount;
-			TileYCount = tileMapData.FieldTileHeightCount;
 			
 			int tileIndex = 0;
 			for (int x = 0; x < tileMapData.FieldTileWidthCount; ++x)
@@ -144,6 +139,7 @@ namespace GC.Module
 		{
 			tileInfoList = null;
 			openList = null;
+			tileMapData = null;
 			closeList.Clear();
 			nearList.Clear();
 		}
@@ -361,6 +357,16 @@ namespace GC.Module
 		public Vector2 GetPosition(in Vector2Int index)
 		{
 			return tileInfoList[index.x, index.y].Position;
+		}
+
+		public Vector2 GetFieldTilePosition(int fieldId)
+		{
+			return tileMapData.TilePositionList[fieldId].position;
+		}
+
+		public Vector2 GetWaitTilePosition(int waitId)
+		{
+			return tileMapData.WaitTilePositionList[waitId].position;
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace GC.Module
         /// 타일을 가지고 있는 루트 트랜스폼.
         /// 여러개의 행을 가지고 있고, 그 행 안에는 열의 개수만큼 타일이 있다.
         /// </summary>
-        [FormerlySerializedAs("trTileRoot")] [SerializeField] Transform trFieldTileRoot;
+        [SerializeField] Transform trFieldTileRoot;
         /// <summary> 대기 타일을 가지고 있는 루트 트랜스폼 </summary>
         [SerializeField] Transform trWaitTileRoot;
         

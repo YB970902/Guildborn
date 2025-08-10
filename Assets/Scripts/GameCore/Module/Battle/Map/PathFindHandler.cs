@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using BC.Utils;
 using FixedMathSharp;
 using UnityEngine;
+using Vector2 = UnityEngine.Vector2;
 
 namespace GC.Module
 {
@@ -35,11 +37,15 @@ namespace GC.Module
 
 		/// <summary> 유닛을 식별하기위한 고유 인덱스 </summary>
 		private long unitIdx;
+
+		/// <summary> 현재 위치 </summary>
+		public Vector2 Position { get; private set; }
 		
 		public PathFindHandler()
 		{
 			path = new List<Vector2Int>();
 			pathFinder = GameCore.Instance.Battle.Map.PathFinder;
+			Position = Vector2.zero;
 		}
 
 		public void Set(long unitIdx)
@@ -50,17 +56,19 @@ namespace GC.Module
 		/// <summary>
 		/// 필드 타일로 이동한다.
 		/// </summary>
-		public void SetFieldTile()
+		public void SetFieldTile(int fieldId)
 		{
 			path.Clear();
+			Position = pathFinder.GetFieldTilePosition(fieldId);
 		}
 
 		/// <summary>
 		/// 대기석 타일로 이동한다.
 		/// </summary>
-		public void SetWaitTile()
+		public void SetWaitTile(int waitId)
 		{
 			path.Clear();
+			Position = pathFinder.GetWaitTilePosition(waitId);
 		}
 
 		/// <summary>
@@ -96,17 +104,11 @@ namespace GC.Module
 				// 이동한 거리를 초기화한다.
 				durationDist = Fixed64.Zero;
 			}
-		}
-
-		/// <summary>
-		/// 월드 좌표계상의 위치를 반환한다.
-		/// </summary>
-		public Vector2 GetPosition()
-		{
+			
+			// 이동한 시간에 맞춰 위치값을 세팅한다.
 			Vector2 currentPosition = pathFinder.GetPosition(CurrentTile);
 			Vector2 nextPosition = pathFinder.GetPosition(NextTile);
-
-			return currentPosition + (nextPosition - currentPosition) * (float)durationDist;
+			Position = currentPosition + (nextPosition - currentPosition) * (float)durationDist;
 		}
 		
 		#if UNITY_EDITOR

@@ -18,7 +18,8 @@ public class Tester : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.A))
         {
-            GameCore.Instance.Battle.Command.SpawnCharacterAtField(0, 0, 1, 0);
+            //GameCore.Instance.Battle.Command.SpawnCharacterAtField(0, 0, 1, 0);
+            GameCore.Instance.Battle.Command.SpawnCharacterAtWait(0, 0, 1, 0);
         }
     }
 }

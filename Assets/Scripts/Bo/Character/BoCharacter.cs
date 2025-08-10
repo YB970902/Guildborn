@@ -51,6 +51,7 @@ namespace Bo
 		{
 			// TODO : 버프 처리하기
 			stateMachine.Execute();
+			actor.SetPosition(pathFindHandler.Position);
 		}
 
 		/// <summary>
@@ -58,7 +59,8 @@ namespace Bo
 		/// </summary>
 		public void SetFieldTile(int fieldId)
 		{
-			pathFindHandler.SetFieldTile();
+			// 위치를 이동시킨다.
+			pathFindHandler.SetFieldTile(fieldId);
 		}
 
 		/// <summary>
@@ -66,7 +68,8 @@ namespace Bo
 		/// </summary>
 		public void SetWaitTile(int waitId)
 		{
-			pathFindHandler.SetWaitTile();
+			// 위치를 이동시킨다.
+			pathFindHandler.SetWaitTile(waitId);
 		}
 	}
 }

@@ -123,9 +123,9 @@ namespace GC.Module.Command
 			command.IntParams.Add(waitId);
 		}
 		
-		public static long UnitIdx(RemoteCommand remoteCommand) => remoteCommand.GetLongParam(DefineBattle.RemoteCommandType.SpawnCharacterAtField, 0);
-		public static int OwnerID(RemoteCommand remoteCommand) => remoteCommand.GetIntParam(DefineBattle.RemoteCommandType.SpawnCharacterAtField, 0);
-		public static int CharacterID(RemoteCommand remoteCommand) => remoteCommand.GetIntParam(DefineBattle.RemoteCommandType.SpawnCharacterAtField, 1);
-		public static int WaitID(RemoteCommand remoteCommand) => remoteCommand.GetIntParam(DefineBattle.RemoteCommandType.SpawnCharacterAtField, 2);
+		public static long UnitIdx(RemoteCommand remoteCommand) => remoteCommand.GetLongParam(DefineBattle.RemoteCommandType.SpawnCharacterAtWait, 0);
+		public static int OwnerID(RemoteCommand remoteCommand) => remoteCommand.GetIntParam(DefineBattle.RemoteCommandType.SpawnCharacterAtWait, 0);
+		public static int CharacterID(RemoteCommand remoteCommand) => remoteCommand.GetIntParam(DefineBattle.RemoteCommandType.SpawnCharacterAtWait, 1);
+		public static int WaitID(RemoteCommand remoteCommand) => remoteCommand.GetIntParam(DefineBattle.RemoteCommandType.SpawnCharacterAtWait, 2);
 	}
 }

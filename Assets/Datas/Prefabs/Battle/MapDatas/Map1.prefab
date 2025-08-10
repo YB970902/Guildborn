@@ -1330,8 +1330,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad5b17436ad0548cc954f07208970d85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trTileRoot: {fileID: 6600637708675109509}
-  trWaitTileRoot: {fileID: 0}
+  trFieldTileRoot: {fileID: 6600637708675109509}
+  trWaitTileRoot: {fileID: 4574850940480495393}
 --- !u!1 &5655014879376417412
 GameObject:
   m_ObjectHideFlags: 0

@@ -39,11 +39,14 @@ namespace GC.Module
 			var prefabMap = AddressableManager.Instance.LoadAssetSync<GameObject>($"Prefabs/Battle/MapDatas/{ldMap.Name}.prefab", DefineAddressable.Group.Battle);
 			tileMapData = GameObject.Instantiate(prefabMap).GetComponent<TileMapData>();
 			tileMapData.Init();
+			
+			PathFinder.LoadMap(tileMapData);
 		}
 
 		public void UnloadMap()
 		{
 			GameObject.Destroy(tileMapData);
+			PathFinder.UnloadMap();
 		}
 
 		/// <summary>
