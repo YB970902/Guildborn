@@ -127,7 +127,7 @@ namespace GC.Module
 			{
 				for (int y = 0; y < tileMapData.FieldTileHeightCount; ++y)
 				{
-					tileInfoList[x, y] = new TileInfo(x, y, tileMapData.TilePositionList[tileIndex++].position);
+					tileInfoList[x, y] = new TileInfo(x, y, tileMapData.TilePositionList[tileIndex++].Position);
 				}
 			}
 		}
@@ -361,12 +361,12 @@ namespace GC.Module
 
 		public Vector2 GetFieldTilePosition(int fieldId)
 		{
-			return tileMapData.TilePositionList[fieldId].position;
+			return tileMapData.TilePositionList[fieldId].Position;
 		}
 
 		public Vector2 GetWaitTilePosition(int waitId)
 		{
-			return tileMapData.WaitTilePositionList[waitId].position;
+			return tileMapData.WaitTilePositionList[waitId].Position;
 		}
 	}
 }

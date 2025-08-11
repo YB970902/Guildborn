@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 namespace GC.Module
 {
     /// <summary>
-    /// 전투에 필요한 맵 타일 정보
+    /// 전투에 필요한 맵의 정보
     /// </summary>
     public class TileMapData : MonoBehaviour
     {
@@ -29,17 +29,31 @@ namespace GC.Module
         public int WaitTileCount { get; private set; }
 
         /// <summary> 필드 타일의 위치를 가지고 있는 리스트 </summary>
-        public List<Transform> TilePositionList { get; private set; }
+        public List<TileData> TilePositionList { get; private set; }
         /// <summary> 대기석 타일의 위치를 가지고 있는 리스트 </summary>
-        public List<Transform> WaitTilePositionList { get; private set; }
+        public List<TileData> WaitTilePositionList { get; private set; }
 
         public void Init()
         {
+            int tileId = 0;
+            
+            // 맵의 대기석을 계산한다.
+            if(WaitTilePositionList == null) WaitTilePositionList = new List<TileData>();
+            else WaitTilePositionList.Clear();
+
+            foreach (Transform trTile in trWaitTileRoot)
+            {
+                ++WaitTileCount;
+                TileData tileData = trTile.GetComponent<TileData>();
+                tileData.Set(DefineBattle.TileType.Wait, tileId++);
+                WaitTilePositionList.Add(tileData);
+            }
+            
             // 맵의 너비와 높이를 계산한다.
             FieldTileWidthCount = 0;
             FieldTileHeightCount = 0;
             
-            if(TilePositionList == null) TilePositionList = new List<Transform>();
+            if(TilePositionList == null) TilePositionList = new List<TileData>();
             else TilePositionList.Clear();
             
             foreach (Transform line in trFieldTileRoot)
@@ -47,21 +61,13 @@ namespace GC.Module
                 ++FieldTileHeightCount;
                 foreach (Transform trTile in line)
                 {
-                    TilePositionList.Add(trTile);
+                    TileData tileData = trTile.GetComponent<TileData>();
+                    tileData.Set(DefineBattle.TileType.Field, tileId++);
+                    TilePositionList.Add(tileData);
                 }
             }
 
             FieldTileWidthCount = TilePositionList.Count / FieldTileHeightCount;
-            
-            // 맵의 대기석을 계산한다.
-            if(WaitTilePositionList == null) WaitTilePositionList = new List<Transform>();
-            else WaitTilePositionList.Clear();
-
-            foreach (Transform trTile in trWaitTileRoot)
-            {
-                ++WaitTileCount;
-                WaitTilePositionList.Add(trTile);
-            }
         }
     }
 }
